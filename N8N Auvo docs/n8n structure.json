@@ -1,0 +1,150 @@
+[
+    {
+        "vtiger": {
+            "cf_995": "Rod. Fernão Dias",
+            "cf_763": "km 843",
+            "cf_767": "",
+            "city": "São Sebastião da Bela Vista",
+            "cf_993": "São Sebastião da Bela Vista",
+            "state": "Minas Gerais",
+            "cf_977": "MG",
+            "code": "37567-000",
+            "country": "Brasil",
+            "leadstatus": "Cadastrado",
+            "assigned_user_id": "19x144",
+            "company": "Lead - Pampas Grill ",
+            "phone": "35984236560",
+            "email": "",
+            "leadsource": "Prospeccao Consultor",
+            "description": "Importado da Auvo id20664332\n Luan pegou o folder e passou o nome e contato da responsável.",
+            "lastname": "Laís  (responsável)",
+            "cf_765": ""
+        },
+        "others": {
+            "AlreadyExists": false,
+            "crm_id": "19x144",
+            "nome_vtiger_ui": "Alysson Pontes - IIG",
+            "isConsultor": true,
+            "Lead": {
+                "cpfCnpj": "",
+                "externalId": "",
+                "phoneNumber": [],
+                "email": [],
+                "manager": "",
+                "note": "",
+                "address": "Petrobras, São Sebastião da Bela Vista - MG, 37567-000, Brasil",
+                "latitude": -22.18666,
+                "longitude": -45.84378,
+                "maximumVisitTime": 1,
+                "unitMaximumTime": 3,
+                "groupsId": [
+                    155806
+                ],
+                "managerTeamsId": [],
+                "managersId": [
+                    166471
+                ],
+                "uriAttachments": [],
+                "segmentId": 0,
+                "active": true,
+                "adressComplement": "",
+                "dateLastUpdate": "2025-11-24T07:31:47",
+                "creationDate": "2025-11-24T07:31:47",
+                "contacts": [
+                    {
+                        "id": 36386922,
+                        "name": "Laís ",
+                        "jobPosition": "responsável ",
+                        "email": "",
+                        "phone": "35984236560"
+                    }
+                ],
+                "id": 20664332,
+                "description": "Lead - Pampas Grill "
+            },
+            "Task": {
+                "taskID": 66259532,
+                "externalId": "",
+                "idUserFrom": 166471,
+                "userFromName": "Carlos Rodrigo",
+                "idUserTo": 166471,
+                "userToName": "Carlos Rodrigo",
+                "customerId": 20664332,
+                "customerExternalId": "",
+                "customerDescription": "Lead - Pampas Grill ",
+                "taskType": 155786,
+                "taskTypeDescription": "prospecção",
+                "creationDate": "2025-11-24T07:32:03",
+                "taskDate": "2025-11-24T07:31:44",
+                "latitude": -22.18666,
+                "longitude": -45.84378,
+                "address": "Petrobras, São Sebastião da Bela Vista - MG, 37567-000, Brasil",
+                "orientation": "Luan pegou o folder e passou o nome e contato da responsável.",
+                "priority": 3,
+                "deliveredOnSmarthPhone": true,
+                "deliveredDate": "2025-11-24T07:32:03",
+                "finished": true,
+                "report": "",
+                "visualized": true,
+                "visualizedDate": "2025-11-24T07:32:03",
+                "checkIn": true,
+                "checkInDate": "2025-11-24T07:33:04",
+                "checkOut": true,
+                "checkOutDate": "2025-11-24T07:33:47",
+                "checkinType": 1,
+                "keyWords": [],
+                "keyWordsDescriptions": [],
+                "inputedKm": 0,
+                "adoptedKm": 0,
+                "attachments": [
+                    {
+                        "url": "https://auvo-producao.s3.amazonaws.com/anexos_tarefas/298150fd-b9c6-4cb2-ab62-d309df4506f3.png",
+                        "attachmentType": 2,
+                        "subtitle": "",
+                        "extension": ".png",
+                        "id": 82268573,
+                        "description": ""
+                    }
+                ],
+                "questionnaires": [],
+                "signatureUrl": "",
+                "checkInDistance": 5,
+                "checkOutDistance": 10,
+                "sendSatisfactionSurvey": false,
+                "sendDigitalOs": false,
+                "survey": "https://app.auvo.com.br/pesquisasatisfacao/formulario/b9ac2f3c-f46f-4e2b-a69c-67c60d133d6c",
+                "taskUrl": "https://app.auvo.com.br/informacoes/tarefa/b9ac2f3c-f46f-4e2b-a69c-67c60d133d6c?chave=KEm0AAWFzKPtsKBlf6Pluw",
+                "pendency": "",
+                "equipmentsId": [],
+                "dateLastUpdate": "2025-11-24T07:38:56",
+                "ticketId": 0,
+                "ticketTitle": "",
+                "signatureName": "",
+                "signatureDocument": "",
+                "expense": "0,00",
+                "duration": "00:00:43",
+                "durationDecimal": "0.0119444444444444",
+                "displacementStart": "",
+                "products": [],
+                "services": [],
+                "additionalCosts": [],
+                "summary": {
+                    "totalProducts": 0,
+                    "totalServices": 0,
+                    "totalAdditionalCosts": 0,
+                    "totalValue": 0,
+                    "discount": {
+                        "value": 0,
+                        "type": "Valor"
+                    }
+                },
+                "estimatedDuration": "00:00:00",
+                "financialCategory": "",
+                "openedOnLocation": true,
+                "timeControl": [],
+                "taskStatus": 5,
+                "reasonForPause": ""
+            }
+        }
+    }
+]

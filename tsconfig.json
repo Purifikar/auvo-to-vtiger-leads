@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2022", "DOM"],
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": [
+    "tests/**/*.ts",
+    "pages/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
