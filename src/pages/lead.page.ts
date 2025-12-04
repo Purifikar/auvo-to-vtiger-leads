@@ -32,6 +32,32 @@ export class LeadPage {
         this.saveButton = page.getByRole('button', { name: 'Salvar' }).nth(1);
     }
 
+    // Helper method to select from a picklist by finding the label first
+    async selectPicklistByLabel(labelText: string | RegExp, optionText: string) {
+        // Ajuste no log para exibir corretamente mesmo se for Regex
+        console.log(`Selecting "${optionText}" for field "${labelText.toString()}"`);
+
+        // LÓGICA CORRIGIDA:
+        // Se labelText já for Regex, usa ele. Se for string, cria o Regex.
+        const textFilter = (labelText instanceof RegExp)
+            ? labelText
+            : new RegExp(labelText, 'i');
+
+        // Find the row that contains the label
+        const labelCell = this.page.locator('td').filter({ hasText: textFilter }).first();
+
+        // Find the dropdown in the same row (next cell)
+        const dropdownCell = labelCell.locator('xpath=following-sibling::td[1]');
+
+        // Click on the dropdown to open it
+        await dropdownCell.locator('a').first().click();
+        await this.page.waitForTimeout(500);
+
+        // Select the option
+        await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${optionText}`, 'i') }).first().click();
+        await this.page.waitForTimeout(500);
+    }
+
     // Métodos de ação
     async navigateToAddLead() {
         // Clica no menu "Leads" e aguarda o carregamento da nova página
@@ -54,106 +80,89 @@ export class LeadPage {
         });
     }
 
-    async selectCityPolo(userFromName: string) {
-        // Extract City Polo from userFromName
-        // Format: "Name - PSA / City Polo - State"
-        // Example: "Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"
-        const parts = userFromName.split('/');
-        if (parts.length < 2) {
-            throw new Error(`Invalid userFromName format: ${userFromName}`);
-        }
-        const cityPoloPart = parts[1].trim(); // "Pouso Alegre - MG"
-
-        // User confirmed "Cidade Polo: Pouso Alegre - MG"
-        // We try to select the full string first.
-        console.log(`Selecting City Polo: ${cityPoloPart}`);
-
-        // Click the dropdown
-        await this.page.getByRole('cell', { name: 'Selecionar uma Opção' }).first().getByRole('link').click();
-        await this.page.waitForTimeout(500);
-
-        // Try to select full string "Pouso Alegre - MG"
-        // Using regex to match start of string to be safe against extra spaces
-        await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${cityPoloPart}`, 'i') }).first().click();
+    async selectCityPolo(cityPolo: string) {
+        console.log(`Selecting City Polo: ${cityPolo}`);
+        await this.selectPicklistByLabel('Cidade Polo', cityPolo);
         await this.page.waitForTimeout(1000); // Wait for dependent fields to reload
     }
 
     async selectCity(city: string) {
         console.log(`Selecting City: ${city}`);
-        await this.page.getByRole('cell', { name: 'Select an Option Selecionar' }).getByRole('link').click();
-        await this.page.waitForTimeout(500);
-        await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${city}$`, 'i') }).click();
+        // Cidade uses a different selector pattern - find by label "Cidade"
+        await this.selectPicklistByLabel('Cidade', city);
     }
 
     async selectAssignedUser(userName: string) {
         console.log(`Selecting Assigned User: ${userName}`);
-        // Attempt 1: Try ID selector for the chosen container (standard in Vtiger)
-        const assignedUserContainer = this.page.locator('#Leads_editView_fieldName_assigned_user_id_chosen');
+        // Try with the correct Portuguese label - "Responsável pelo Lead" with accent
+        await this.selectPicklistByLabel('Responsavel pelo Lead', userName);
+    }
 
-        if (await assignedUserContainer.isVisible()) {
-            await assignedUserContainer.click();
-        } else {
-            // Fallback: Try to find by label "Responsável"
-            // This is risky if language changes, but user seems to use PT-BR
-            await this.page.locator('td').filter({ hasText: 'Responsável' }).locator('+ td').click();
-        }
+    async selectUF(uf: string) {
+        console.log(`Selecting UF: ${uf}`);
+        await this.selectPicklistByLabel('UF', uf);
+        await this.page.waitForTimeout(1000); // Wait for dependent Cidade Polo to load
+    }
 
-        await this.page.waitForTimeout(500);
-        // Select the user from the dropdown
-        await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${userName}`, 'i') }).first().click();
+    async selectLeadStatus(status: string) {
+        console.log(`Selecting Lead Status: ${status}`);
+        await this.selectPicklistByLabel('Status Lead', status);
+    }
+
+    async selectLeadSource(source: string) {
+        console.log(`Selecting Lead Source: ${source}`);
+        // Try "Fonte do Lead" or "Origem do Lead"
+        await this.selectPicklistByLabel('Fonte Lead', source);
     }
 
     async fillLeadForm(leadData: any) {
         // Preenchendo campos de texto
-        await this.companyInput.fill(leadData.company);
-        await this.lastnameInput.fill(leadData.lastname);
-        await this.mobileInput.fill(leadData.mobile);
-        await this.emailInput.fill(leadData.email);
-        await this.streetInput.fill(leadData.street);
-        await this.complementInput.fill(leadData.complement);
-        await this.numberInput.fill(leadData.number);
-        await this.neighborhoodInput.fill(leadData.neighborhood);
-        await this.cepInput.fill(leadData.cep);
+        console.log('Filling text fields...');
+        if (leadData.company) await this.companyInput.fill(leadData.company);
+        if (leadData.lastname) await this.lastnameInput.fill(leadData.lastname);
+        if (leadData.mobile) await this.mobileInput.fill(leadData.mobile);
+        if (leadData.email) await this.emailInput.fill(leadData.email);
+        if (leadData.street) await this.streetInput.fill(leadData.street);
+        if (leadData.complement) await this.complementInput.fill(leadData.complement);
+        if (leadData.number) await this.numberInput.fill(leadData.number);
+        if (leadData.neighborhood) await this.neighborhoodInput.fill(leadData.neighborhood);
+        if (leadData.cep) await this.cepInput.fill(leadData.cep);
+
         await this.page.waitForLoadState('networkidle');
-        await this.descriptionInput.fill(leadData.description);
+        console.log('Filling Description...');
+        if (leadData.description) await this.descriptionInput.fill(leadData.description);
 
-        // Preenche UF
-        const uf = leadData.cf_977; // Default to MG if missing
-        await this.page.locator('#Leads_editView_fieldName_cf_977_chosen').click();
-        await this.page.waitForTimeout(500);
-        await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${uf}$`, 'i') }).click();
+        // IMPORTANT ORDER: UF first, then Cidade Polo, then the rest
 
+        // 1. Preenche UF
+        const uf = leadData.cf_977;
+        await this.selectUF(uf);
 
-        // Preenche City Polo and Assigned User
+        // 2. Preenche Cidade Polo (depends on UF)
         if (leadData.userFromName) {
-            // Parse userFromName
             const parts = leadData.userFromName.split('/');
             if (parts.length >= 2) {
-                const assignedUserName = parts[0].trim(); // "Carlos Rodrigo dos Santos B. Teodoro - PSA"
-
-                // Select Assigned User
-                await this.selectAssignedUser(assignedUserName);
-
-                // Select City Polo
-                await this.selectCityPolo(leadData.userFromName);
+                const cityPoloPart = parts[1].trim(); // "Pouso Alegre - MG"
+                await this.selectCityPolo(cityPoloPart);
             }
         }
 
-        // Preenche Lead Status
-        await this.page.locator('#Leads_editView_fieldName_leadstatus_chosen').click();
-        await this.page.waitForTimeout(500);
-        await this.page.getByRole('listitem').filter({ hasText: 'Cadastrado' }).click();
+        // 3. Preenche Responsável pelo Lead
+        if (leadData.userFromName) {
+            const parts = leadData.userFromName.split('/');
+            if (parts.length >= 2) {
+                const assignedUserName = parts[0].trim();
+                await this.selectAssignedUser(assignedUserName);
+            }
+        }
 
-        await this.page.waitForTimeout(500);
+        // 4. Preenche Lead Status
+        await this.selectLeadStatus('Cadastrado');
 
-        // Preenche Lead Source
-        await this.page.locator('#Leads_editView_fieldName_leadsource_chosen').click();
-        await this.page.waitForTimeout(500);
-        await this.page.getByRole('listitem').filter({ hasText: /^Prospeccao Consultor$/ }).click();
+        // 5. Preenche Lead Source
+        await this.selectLeadSource('Prospeccao Consultor');
 
-        await this.page.waitForTimeout(500);
-
-        // Preenche Cidade do Lead
+        // 6. Preenche Cidade do Lead
         if (leadData.city) {
             await this.selectCity(leadData.city);
         }

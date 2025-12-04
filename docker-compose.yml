@@ -6,22 +6,17 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=file:./dev.db
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - DATABASE_URL=${DATABASE_URL}
+      - CRM_URL=${CRM_URL}
+      - CRM_USERNAME=${CRM_USERNAME}
+      - CRM_PASSWORD=${CRM_PASSWORD}
+      - ERROR_EMAIL_TO=${ERROR_EMAIL_TO}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_SECURE=${SMTP_SECURE}
     volumes:
       - .:/app
       - /app/node_modules
-    depends_on:
-      - redis
     command: npm run dev
-
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-volumes:
-  redis_data:

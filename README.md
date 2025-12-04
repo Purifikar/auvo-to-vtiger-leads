@@ -5,7 +5,7 @@ Este projeto realiza a integração automática de Leads do sistema **Auvo** par
 ## 🚀 Funcionalidades
 
 - **Recebimento de Webhook**: API para receber dados do Auvo (via N8N).
-- **Fila de Processamento**: Utiliza Redis e BullMQ para enfileirar as solicitações.
+- **Fila de Processamento**: Utiliza o próprio PostgreSQL para gerenciar a fila de leads (Polling).
 - **Automação Inteligente**: Worker que executa o Playwright para inserir os dados no Vtiger.
 - **Lógica de Cidade Polo**: Extrai automaticamente a "Cidade Polo" e o "Responsável" a partir do nome do usuário (`userFromName`).
 - **Notificação de Erro**: Envia e-mails caso ocorra falha na inserção do lead.
@@ -16,8 +16,7 @@ Este projeto realiza a integração automática de Leads do sistema **Auvo** par
 - **Node.js** & **TypeScript**
 - **Playwright** (Automação E2E)
 - **Express** (API)
-- **BullMQ** & **Redis** (Fila)
-- **PostgreSQL** (Logs de requisições)
+- **PostgreSQL** (Banco de Dados e Fila)
 - **Prisma** (ORM)
 - **Docker** & **Docker Compose**
 
@@ -45,10 +44,6 @@ Este projeto realiza a integração automática de Leads do sistema **Auvo** par
     # Database Configuration (PostgreSQL)
     DATABASE_URL=postgresql://user:password@localhost:5432/auvo_leads?schema=public
 
-    # Redis Configuration
-    REDIS_HOST=localhost
-    REDIS_PORT=6379
-
     # Email Configuration (Para notificações de erro)
     ERROR_EMAIL_TO=admin@purifikar.com.br
     SMTP_HOST=smtp.exemplo.com
@@ -68,7 +63,7 @@ Este projeto realiza a integração automática de Leads do sistema **Auvo** par
 
 ### Via Docker (Recomendado para Produção)
 
-Suba todo o ambiente (API, Worker, Redis) com um único comando:
+Suba todo o ambiente (API e Worker) com um único comando:
 
 ```bash
 docker-compose up -d --build
@@ -76,17 +71,12 @@ docker-compose up -d --build
 
 ### Manualmente (Desenvolvimento)
 
-1.  Suba o Redis (se não tiver um local):
-    ```bash
-    docker-compose up redis -d
-    ```
-
-2.  Inicie a API (Terminal 1):
+1.  Inicie a API (Terminal 1):
     ```bash
     npm run dev
     ```
 
-3.  Inicie o Worker (Terminal 2):
+2.  Inicie o Worker (Terminal 2):
     ```bash
     npm run worker
     ```

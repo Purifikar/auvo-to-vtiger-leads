@@ -4,7 +4,7 @@ import { LeadPage } from '../pages/lead.page';
 import { logger } from '../lib/logger';
 
 export async function createLeadAutomation(leadData: any) {
-    const browser = await chromium.launch({ headless: true }); // Set to false for debugging
+    const browser = await chromium.launch({ headless: false }); // Set to false for debugging
     const context = await browser.newContext();
     const page = await context.newPage();
 

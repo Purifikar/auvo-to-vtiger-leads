@@ -1,55 +1,85 @@
-import { Worker } from 'bullmq';
-import { redisOptions } from '../queue/connection';
 import { createLeadAutomation } from '../automation/createLead';
 import { prisma } from '../lib/prisma';
 import { logger } from '../lib/logger';
 
-const worker = new Worker('lead-queue', async job => {
-    logger.info(`Processing job ${job.id}`, { requestId: job.data.requestId });
+const POLLING_INTERVAL = 5000; // 5 seconds
 
+async function processNextLead() {
     try {
-        // Update DB to PROCESSED (or PROCESSING)
-        const vtigerId = await createLeadAutomation(job.data.data);
+        // Find the oldest PENDING request
+        // We use a transaction or just simple update for now since we have one worker
+        // For multiple workers, we'd need 'SELECT FOR UPDATE SKIP LOCKED' which Prisma supports via raw query or optimistic locking
+        // Given the scale, simple findFirst is likely okay if we only run one worker container.
 
-        await prisma.leadRequest.update({
-            where: { id: job.data.requestId },
-            data: {
-                status: 'PROCESSED',
-                vtigerId: vtigerId,
-            },
+        const pendingRequest = await prisma.leadRequest.findFirst({
+            where: { status: 'PENDING' },
+            orderBy: { createdAt: 'asc' },
         });
 
-        logger.info(`Job ${job.id} completed`);
-    } catch (error: any) {
-        logger.error(`Job ${job.id} failed`, { error });
-
-        await prisma.leadRequest.update({
-            where: { id: job.data.requestId },
-            data: {
-                status: 'FAILED',
-                errorMessage: error.message || 'Unknown error',
-            },
-        });
-
-        // Send Error Email
-        // Dynamic import to avoid circular dependencies if any, or just standard import
-        try {
-            const { sendErrorEmail } = await import('../lib/email');
-            await sendErrorEmail(`Job ${job.id} Failed`, error, job.data);
-        } catch (emailErr) {
-            logger.error('Failed to import/send email', { error: emailErr });
+        if (!pendingRequest) {
+            return; // No work to do
         }
 
-        throw error; // Let BullMQ handle retries if configured
+        logger.info(`Processing request ${pendingRequest.id}`);
+
+        // Mark as PROCESSING
+        await prisma.leadRequest.update({
+            where: { id: pendingRequest.id },
+            data: { status: 'PROCESSING' },
+        });
+
+        try {
+            const payload = JSON.parse(pendingRequest.payload);
+            // Assuming payload is an array and we take the first item, similar to before
+            const leadData = payload[0];
+
+            const vtigerId = await createLeadAutomation(leadData);
+
+            await prisma.leadRequest.update({
+                where: { id: pendingRequest.id },
+                data: {
+                    status: 'PROCESSED',
+                    vtigerId: vtigerId,
+                },
+            });
+
+            logger.info(`Request ${pendingRequest.id} completed successfully`);
+
+        } catch (error: any) {
+            logger.error(`Request ${pendingRequest.id} failed`, { error });
+
+            await prisma.leadRequest.update({
+                where: { id: pendingRequest.id },
+                data: {
+                    status: 'FAILED',
+                    errorMessage: error.message || 'Unknown error',
+                },
+            });
+
+            // Send Error Email
+            try {
+                const { sendErrorEmail } = await import('../lib/email');
+                await sendErrorEmail(`Request ${pendingRequest.id} Failed`, error, { requestId: pendingRequest.id });
+            } catch (emailErr) {
+                logger.error('Failed to send email', { error: emailErr });
+            }
+        }
+
+    } catch (error) {
+        logger.error('Error in polling loop', { error });
     }
-}, { connection: redisOptions });
+}
 
-worker.on('completed', job => {
-    logger.info(`${job.id} has completed!`);
-});
+async function startWorker() {
+    logger.info('Worker started (Polling Mode)');
 
-worker.on('failed', (job, err) => {
-    logger.error(`${job?.id} has failed with ${err.message}`);
-});
+    // Initial run
+    await processNextLead();
 
-logger.info('Worker started');
+    // Loop
+    setInterval(async () => {
+        await processNextLead();
+    }, POLLING_INTERVAL);
+}
+
+startWorker();

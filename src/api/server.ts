@@ -1,13 +1,9 @@
 import express from 'express';
-import { Queue } from 'bullmq';
 import { prisma } from '../lib/prisma';
 import { logger } from '../lib/logger';
-import { redisOptions } from '../queue/connection';
 
 const app = express();
 app.use(express.json());
-
-const leadQueue = new Queue('lead-queue', { connection: redisOptions });
 
 app.post('/webhook/lead', async (req, res) => {
     try {
@@ -27,11 +23,7 @@ app.post('/webhook/lead', async (req, res) => {
             },
         });
 
-        // Add to Queue
-        await leadQueue.add('process-lead', {
-            requestId: leadRequest.id,
-            data: payload[0], // Assuming we process one lead at a time from the array
-        });
+        logger.info(`Lead request received and saved`, { id: leadRequest.id });
 
         res.status(200).json({ message: 'Lead received and queued', id: leadRequest.id });
     } catch (error) {
