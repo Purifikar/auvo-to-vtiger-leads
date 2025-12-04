@@ -17,7 +17,8 @@ export class LoginPage {
 
     // Métodos de ação
     async goto() {
-        await this.page.goto('https://crm.purifikar.com.br/index.php');
+        const url = process.env.CRM_URL || 'https://crm.purifikar.com.br/index.php';
+        await this.page.goto(url);
     }
 
     async login(username: string, password: string) {

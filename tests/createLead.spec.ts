@@ -15,6 +15,7 @@ test.describe('Criação de Leads', () => {
             company: 'Empresa Teste via POM2',
             lastname: 'Playwright2',
             mobile: '31999998888',
+            email: 'playwright2@playwright.com',
             street: 'Rua da Automação',
             complement: 'Sala 101',
             number: '123',
@@ -34,23 +35,23 @@ test.describe('Criação de Leads', () => {
 
         // PASSO 3: Preencher e salvar o formulário
         await leadPage.fillLeadForm(leadData);
-        
+
         console.log('Formulário preenchido com os dados do lead.');
-    /*  await leadPage.saveLead();
-        // Aguarda o redirecionamento para a página do lead
-        await page.waitForURL(/module=Leads&view=Detail&record=\d+/, { timeout: 15000 });
+        /*  await leadPage.saveLead();
+            // Aguarda o redirecionamento para a página do lead
+            await page.waitForURL(/module=Leads&view=Detail&record=\d+/, { timeout: 15000 });
+        
+            // Captura a URL atual
+            const currentURL = page.url();
+            console.log('✅ Lead criado! URL atual:', currentURL);
     
-        // Captura a URL atual
-        const currentURL = page.url();
-        console.log('✅ Lead criado! URL atual:', currentURL);
-
-        // Extrai o número do lead a partir da URL
-        const recordMatch = currentURL.match(/record=(\d+)/);
-        const recordId = recordMatch ? recordMatch[1] : null;
-
-        expect(recordId).not.toBeNull();
-        console.log('📋 Número do lead criado:', recordId);
-    */
+            // Extrai o número do lead a partir da URL
+            const recordMatch = currentURL.match(/record=(\d+)/);
+            const recordId = recordMatch ? recordMatch[1] : null;
+    
+            expect(recordId).not.toBeNull();
+            console.log('📋 Número do lead criado:', recordId);
+        */
         // Valida que a página carregou o nome do lead (exemplo: "Playwright2")
         //await expect(page.getByText(leadData.company)).toBeVisible();
 

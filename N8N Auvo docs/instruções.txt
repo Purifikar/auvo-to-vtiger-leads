@@ -1,0 +1,40 @@
+Estou com um projeto em node.js usando N8N, typescript e playwright, tenho que pensar na lógica.
+
+É um projeto que sai o lead do sistema da AUVO para CRM VTIGER.
+
+- O intuito é passar o lead de um sistema para outro.
+
+- O sistema tem picklist dependency, para selecionar a cidade tem primeiro selecionar a cidade polo, para resolver isto estou pensando em colocar no nome do funcionário no AUVO exemplo "Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"  sendo nome "Carlos Rodrigo dos Santos B. Teodoro - PSA" e praça "Pouso Alegre - MG". para que o nome ele acha pelo UI e a cidade polo também.
+
+- O n8n formata os dados e faz validações e traz as informações quase pronta para o playwright(TEM NO ./n8n_structure.json a estrutura da requisição que a auvo vai enviar) o nome do funcionário fica em "userFromName". 
+
+- o playwright com os dados vai fazer a validação de praça e cidade, se não existir ele vai notificar via email o responsável de criar praça, e pensar em um jeito de fazer a parte de inclusão após a criação da cidade.  
+
+Os campos necessários para preenchimento dentro do CRM são;
+
+            "cf_995": "Rod. Fernão Dias", //streetInput
+            "cf_763": "km 843", //numberInput
+            "cf_767": "", //neighborhoodInput
+            "city": "São Sebastião da Bela Vista", //cityInput
+            "cf_993": "São Sebastião da Bela Vista", //stateInput
+            "state": "Minas Gerais", //stateInput
+            "cf_977": "MG", // UF
+            "code": "37567-000", //cepInput
+            "country": "Brasil", //ignorar este campo
+            "leadstatus": "Cadastrado", //ignorar este campo
+            "assigned_user_id": "19x144", //ignorar este campo 
+            "company": "Lead - Pampas Grill ", // companyInput
+            "phone": "35984236560", // mobile
+            "email": "", // emailInput
+            "leadsource": "Prospeccao Consultor", //ignorar este campo
+            "description": "Importado da Auvo id20664332\n Luan pegou o folder e passou o nome e contato da responsável.", //descriptionInput
+            "lastname": "Laís  (responsável)", //lastnameInput 
+            "cf_765": "" //complementInput
+
+            Logo após o // está o nome da variável dada no playwright.
+
+Com isso temos que adaptar o playwright para preencher estes campos do vtiger.
+
+- Creio que o melhor jeito seja criar uma rota de webhook para o N8N chamar o playwright para preencher os campos do vtiger.
+
+- Caso dê algum erro no playwright ele envia um email para o responsável com o erro.
