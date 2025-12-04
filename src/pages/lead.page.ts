@@ -118,7 +118,7 @@ export class LeadPage {
         await this.descriptionInput.fill(leadData.description);
 
         // Preenche UF
-        const uf = leadData.cf_977 || 'MG'; // Default to MG if missing
+        const uf = leadData.cf_977; // Default to MG if missing
         await this.page.locator('#Leads_editView_fieldName_cf_977_chosen').click();
         await this.page.waitForTimeout(500);
         await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${uf}$`, 'i') }).click();
