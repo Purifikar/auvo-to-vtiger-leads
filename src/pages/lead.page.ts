@@ -53,8 +53,9 @@ export class LeadPage {
         await dropdownCell.locator('a').first().click();
         await this.page.waitForTimeout(500);
 
-        // Select the option
-        await this.page.getByRole('listitem').filter({ hasText: new RegExp(`^${optionText}`, 'i') }).first().click();
+        // Select the option from the active dropdown
+        const activeDropdown = this.page.locator('.chzn-drop:visible .chzn-results');
+        await activeDropdown.getByRole('listitem').filter({ hasText: new RegExp(`^${optionText}`, 'i') }).first().click();
         await this.page.waitForTimeout(500);
     }
 
@@ -89,7 +90,14 @@ export class LeadPage {
     async selectCity(city: string) {
         console.log(`Selecting City: ${city}`);
         // Cidade uses a different selector pattern - find by label "Cidade"
-        await this.selectPicklistByLabel('Cidade', city);
+        await this.page.getByRole('cell', { name: 'Select an Option Selecionar' }).click();
+        await this.page.waitForTimeout(500);
+
+        // Use the specific active dropdown container to avoid matching items from other dropdowns
+        // Use exact match with $ anchor to avoid partial matches like "Pouso Alegre - MG"
+        const activeDropdown = this.page.locator('.chzn-drop:visible .chzn-results');
+        await activeDropdown.getByRole('listitem').filter({ hasText: new RegExp(`^${city}$`, 'i') }).click();
+        await this.page.waitForTimeout(500);
     }
 
     async selectAssignedUser(userName: string) {
