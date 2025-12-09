@@ -14,3 +14,23 @@
 {"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
 {"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
 {"error":{"name":"TimeoutError"},"level":"error","message":"Request 3 failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Request 4 failed","service":"auvo-vtiger-service"}
+{"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Request 5 failed","service":"auvo-vtiger-service"}
+{"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Request 6 failed","service":"auvo-vtiger-service"}
+{"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Request 7 failed","service":"auvo-vtiger-service"}
+{"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Request 8 failed","service":"auvo-vtiger-service"}
+{"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Request 9 failed","service":"auvo-vtiger-service"}
+{"error":{"code":"ETIMEDOUT","command":"CONN"},"level":"error","message":"Failed to send error email","service":"auvo-vtiger-service"}
+{"error":{"clientVersion":"5.22.0","code":"P1001","meta":{"database_host":"vps.purifikar.com.br","database_port":5432,"modelName":"LeadRequest"},"name":"PrismaClientKnownRequestError"},"level":"error","message":"Error in polling loop","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}

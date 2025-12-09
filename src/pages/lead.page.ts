@@ -94,9 +94,19 @@ export class LeadPage {
         await this.page.waitForTimeout(500);
 
         // Use the specific active dropdown container to avoid matching items from other dropdowns
-        // Use exact match with $ anchor to avoid partial matches like "Pouso Alegre - MG"
         const activeDropdown = this.page.locator('.chzn-drop:visible .chzn-results');
-        await activeDropdown.getByRole('listitem').filter({ hasText: new RegExp(`^${city}$`, 'i') }).click();
+
+        // Dynamic regex to match both patterns:
+        // - Just city name: "Lavras", "Pouso Alegre"
+        // - City with UF: "Lavras - MG", "Camanducaia - MG"
+        // Regex explanation:
+        // ^           -> Start of string
+        // ${city}     -> Exact city name (e.g., "Lavras")
+        // (\\s-\\s.*)? -> Optionally followed by " - " and any text (like "MG")
+        // $           -> End of string (prevents matching "Lavras Novas" when searching for "Lavras")
+        const cityRegex = new RegExp(`^${city}(\\s-\\s.*)?$`, 'i');
+
+        await activeDropdown.getByRole('listitem').filter({ hasText: cityRegex }).click();
         await this.page.waitForTimeout(500);
     }
 
