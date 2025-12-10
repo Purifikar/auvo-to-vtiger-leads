@@ -106,7 +106,7 @@ export class LeadPage {
         // $           -> End of string (prevents matching "Lavras Novas" when searching for "Lavras")
         const cityRegex = new RegExp(`^${city}(\\s-\\s.*)?$`, 'i');
 
-        await activeDropdown.getByRole('listitem').filter({ hasText: cityRegex }).click();
+        await activeDropdown.getByRole('listitem').filter({ hasText: cityRegex }).last().click();
         await this.page.waitForTimeout(500);
     }
 
@@ -190,5 +190,6 @@ export class LeadPage {
 
     async saveLead() {
         await this.saveButton.click();
+        console.log('Saving lead...');
     }
 }

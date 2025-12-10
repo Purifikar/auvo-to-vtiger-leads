@@ -36,3 +36,15 @@
 {"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
 {"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
 {"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"Error"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"Error"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"Error"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"Error"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"error":{"name":"TimeoutError"},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
