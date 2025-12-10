@@ -1,116 +1,85 @@
 # Auvo to Vtiger Leads Integration
 
-Este projeto realiza a integração automática de Leads do sistema **Auvo** para o CRM **Vtiger**. Ele utiliza uma arquitetura baseada em filas para garantir que nenhum lead seja perdido e automação via **Playwright** para preencher o formulário no CRM.
+Integração automática de Leads do sistema **Auvo** para o CRM **Vtiger** usando automação via **Playwright**.
 
 ## 🚀 Funcionalidades
 
-- **Recebimento de Webhook**: API para receber dados do Auvo (via N8N).
-- **Fila de Processamento**: Utiliza o próprio PostgreSQL para gerenciar a fila de leads (Polling).
-- **Automação Inteligente**: Worker que executa o Playwright para inserir os dados no Vtiger.
-- **Lógica de Cidade Polo**: Extrai automaticamente a "Cidade Polo" e o "Responsável" a partir do nome do usuário (`userFromName`).
-- **Notificação de Erro**: Envia e-mails caso ocorra falha na inserção do lead.
-- **Containerização**: Pronto para rodar com Docker e Docker Compose.
+- **Webhook Síncrono**: Recebe dados do Auvo (via N8N), processa e retorna o ID do lead criado.
+- **Automação Inteligente**: Playwright preenche o formulário no Vtiger automaticamente.
+- **Lógica de Cidade Polo**: Extrai "Cidade Polo" e "Responsável" a partir do `userFromName`.
+- **Notificação de Erro**: Envia e-mail com link para reprocessar em caso de falha.
+- **Endpoint de Retry**: Reprocessa leads que falharam via `POST /webhook/lead/:id/retry`.
 
 ## 🛠️ Tecnologias
 
 - **Node.js** & **TypeScript**
 - **Playwright** (Automação E2E)
 - **Express** (API)
-- **PostgreSQL** (Banco de Dados e Fila)
-- **Prisma** (ORM)
-- **Docker** & **Docker Compose**
-
-## 📋 Pré-requisitos
-
-- [Docker](https://www.docker.com/) e Docker Compose instalados.
-- [Node.js](https://nodejs.org/) (versão 18 ou superior) para desenvolvimento local.
+- **PostgreSQL** + **Prisma** (ORM)
 
 ## ⚙️ Configuração
 
-1.  **Clone o repositório** e instale as dependências:
-    ```bash
-    npm install
-    ```
+1. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
 
-2.  **Configure as Variáveis de Ambiente**:
-    Crie um arquivo `.env` na raiz do projeto (baseado no exemplo abaixo):
+2. **Configure as Variáveis de Ambiente** (`.env`):
+   ```env
+   # CRM
+   CRM_URL=https://crm.purifikar.com.br/
+   CRM_USERNAME=seu_usuario
+   CRM_PASSWORD=sua_senha
 
-    ```env
-    # CRM Configuration
-    CRM_URL=https://crm.purifikar.com.br/index.php
-    CRM_USERNAME=seu_usuario
-    CRM_PASSWORD=sua_senha
+   # API
+   API_BASE_URL=http://localhost:3000
 
-    # Database Configuration (PostgreSQL)
-    DATABASE_URL=postgresql://user:password@localhost:5432/auvo_leads?schema=public
+   # Database
+   DATABASE_URL=postgresql://user:password@localhost:5432/auvo_leads?schema=public
 
-    # Email Configuration (Para notificações de erro)
-    ERROR_EMAIL_TO=admin@purifikar.com.br
-    SMTP_HOST=smtp.exemplo.com
-    SMTP_PORT=587
-    SMTP_USER=email@exemplo.com
-    SMTP_PASS=senha_email
-    SMTP_SECURE=false
-    ```
+   # Email (Notificações de erro)
+   ERROR_EMAIL_TO=admin@purifikar.com.br
+   SMTP_HOST=smtp.exemplo.com
+   SMTP_PORT=465
+   SMTP_USER=email@exemplo.com
+   SMTP_PASS=senha_email
+   SMTP_SECURE=true
+   ```
 
-3.  **Banco de Dados**:
-    Se estiver rodando localmente, certifique-se de que o Postgres está rodando e execute:
-    ```bash
-    npx prisma db push
-    ```
+3. **Banco de Dados**:
+   ```bash
+   npx prisma db push
+   ```
 
 ## 🚀 Como Rodar
 
-### Via Docker (Recomendado para Produção)
-
-Suba todo o ambiente (API e Worker) com um único comando:
-
 ```bash
-docker-compose up -d --build
+npm run dev
 ```
 
-### Manualmente (Desenvolvimento)
+## 📡 Endpoints
 
-1.  Inicie a API (Terminal 1):
-    ```bash
-    npm run dev
-    ```
+### `POST /webhook/lead`
+Recebe dados do lead e retorna o ID criado no Vtiger.
 
-2.  Inicie o Worker (Terminal 2):
-    ```bash
-    npm run worker
-    ```
-
-## 🧪 Testes
-
-### Testar Webhook
-Para simular o envio de um lead (usando o JSON de exemplo em `N8N Auvo docs/n8n structure.json`):
-
-```bash
-npx ts-node scripts/test-webhook.ts
+**Response:**
+```json
+{
+  "message": "Lead created successfully",
+  "id": 15,
+  "vtigerId": "1193203"
+}
 ```
 
-### Testes Unitários
-Para verificar a lógica de extração de Cidade Polo e Responsável:
-
-```bash
-npx ts-node tests/unit/cityPolo.test.ts
-```
+### `POST /webhook/lead/:id/retry`
+Reprocessa um lead que falhou usando o payload salvo no banco.
 
 ## 📂 Estrutura do Projeto
 
 ```
-/
-├── src/
-│   ├── api/             # Servidor Express (Webhook)
-│   ├── automation/      # Scripts do Playwright (createLead.ts)
-│   ├── lib/             # Utilitários (Logger, Email, Prisma)
-│   ├── pages/           # Page Objects do Playwright (LeadPage, LoginPage)
-│   ├── queue/           # Configuração do BullMQ
-│   └── worker/          # Processador da fila
-├── prisma/              # Schema do Banco de Dados
-├── scripts/             # Scripts de teste e utilitários
-├── tests/               # Testes unitários e E2E
-├── docker-compose.yml   # Orquestração de containers
-└── Dockerfile           # Imagem da aplicação
+src/
+├── api/             # Servidor Express (Webhook)
+├── automation/      # Scripts do Playwright
+├── lib/             # Utilitários (Logger, Email, Prisma)
+└── pages/           # Page Objects (LeadPage, LoginPage)
 ```

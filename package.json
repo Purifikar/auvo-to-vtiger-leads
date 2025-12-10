@@ -1,11 +1,10 @@
 {
   "name": "auvo-to-vtiger-leads",
   "version": "1.0.0",
-  "description": "Integration between Auvo and Vtiger CRM using Playwright and BullMQ",
+  "description": "Integration between Auvo and Vtiger CRM using Playwright",
   "main": "dist/api/server.js",
   "scripts": {
     "dev": "nodemon src/api/server.ts",
-    "worker": "ts-node src/worker/processor.ts",
     "build": "tsc",
     "start": "node dist/api/server.js",
     "test": "playwright test",
