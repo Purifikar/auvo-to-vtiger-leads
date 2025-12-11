@@ -57,7 +57,52 @@ Integração automática de Leads do sistema **Auvo** para o CRM **Vtiger** usan
 npm run dev
 ```
 
-## 📡 Endpoints
+## � Docker
+
+```bash
+# Build e start
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f app
+
+# Parar
+docker-compose down
+```
+
+> **Nota:** O container usa a imagem oficial do Playwright (`mcr.microsoft.com/playwright:v1.49.0-jammy`) que já inclui os browsers necessários.
+
+## 🔄 Fluxo da Integração
+
+```mermaid
+flowchart LR
+    A[📱 Auvo] -->|Webhook| B[🔁 N8N]
+    B -->|POST /webhook/lead| C[🚀 API Express]
+    C -->|Salva| D[(🗄️ PostgreSQL)]
+    C -->|Automação| E[🎭 Playwright]
+    E -->|Preenche Form| F[📊 Vtiger CRM]
+    F -->|vtigerId| C
+    C -->|Resposta| B
+```
+
+**Fluxo detalhado:**
+1. **Auvo** dispara evento de novo lead
+2. **N8N** recebe e formata o payload
+3. **API Express** salva no banco e inicia automação
+4. **Playwright** faz login no Vtiger e preenche o formulário
+5. **Vtiger** cria o lead e retorna o ID
+6. **API** responde com o `vtigerId` para o N8N
+
+## �📡 Endpoints
+
+### `GET /health`
+Verifica se o serviço está online.
+
+```json
+{ "status": "ok", "uptime": 12345 }
+```
+
+---
 
 ### `POST /webhook/lead`
 Recebe dados do lead e retorna o ID criado no Vtiger.

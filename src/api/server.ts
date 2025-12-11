@@ -7,6 +7,16 @@ import { sendErrorEmail } from '../lib/email';
 const app = express();
 app.use(express.json());
 
+const startTime = Date.now();
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        uptime: Math.floor((Date.now() - startTime) / 1000)
+    });
+});
+
 app.post('/webhook/lead', async (req, res) => {
     try {
         const payload = req.body;
