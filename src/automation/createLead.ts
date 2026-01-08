@@ -4,7 +4,13 @@ import { LeadPage } from '../pages/lead.page';
 import { logger } from '../lib/logger';
 
 export async function createLeadAutomation(leadData: any) {
-    const browser = await chromium.launch({ headless: false }); // Set to false for debugging
+    // Headless true para Docker/produção, false apenas para debug local
+    const isHeadless = process.env.PLAYWRIGHT_HEADLESS !== 'false';
+
+    const browser = await chromium.launch({
+        headless: isHeadless,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Necessário para Docker
+    });
     const context = await browser.newContext();
     const page = await context.newPage();
 
