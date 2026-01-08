@@ -1,13 +1,20 @@
 {
   "name": "auvo-to-vtiger-leads",
-  "version": "1.0.0",
-  "description": "Integration between Auvo and Vtiger CRM using Playwright",
+  "version": "2.0.0",
+  "description": "Integration between Auvo and Vtiger CRM - Automated Lead Sync with Playwright",
   "main": "dist/api/server.js",
   "scripts": {
     "dev": "nodemon src/api/server.ts",
+    "dev:scheduler": "nodemon src/scheduler/index.ts",
     "build": "tsc",
     "start": "node dist/api/server.js",
-    "test": "playwright test",
+    "start:scheduler": "node dist/scheduler/index.js",
+    "sync-now": "ts-node scripts/sync-now.ts",
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:e2e": "playwright test",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "postinstall": "prisma generate"
   },
   "keywords": [],
@@ -18,6 +25,8 @@
     "@types/nodemailer": "^7.0.4",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "luxon": "^3.7.2",
+    "node-cron": "^4.2.1",
     "nodemailer": "^7.0.11",
     "playwright": "^1.42.1",
     "winston": "^3.11.0",
@@ -26,9 +35,14 @@
   "devDependencies": {
     "@playwright/test": "^1.42.1",
     "@types/express": "^4.17.21",
+    "@types/jest": "^30.0.0",
+    "@types/luxon": "^3.7.1",
     "@types/node": "^20.11.24",
+    "@types/node-cron": "^3.0.11",
+    "jest": "^30.2.0",
     "nodemon": "^3.1.0",
     "prisma": "^5.10.2",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

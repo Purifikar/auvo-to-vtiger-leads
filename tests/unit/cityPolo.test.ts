@@ -1,6 +1,13 @@
-import assert from 'assert';
+/**
+ * Testes de parsing do userFromName para City Polo
+ */
 
-function parseUserFromName(userFromName: string) {
+/**
+ * Parseia o campo userFromName da Auvo para extrair usuário e cidade polo
+ * Formato esperado: "Nome do Usuário - Sigla / Cidade - UF"
+ * Exemplo: "Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"
+ */
+function parseUserFromName(userFromName: string): { assignedUser: string; cityPolo: string } {
     const parts = userFromName.split('/');
     if (parts.length < 2) {
         throw new Error(`Invalid userFromName format: ${userFromName}`);
@@ -10,27 +17,45 @@ function parseUserFromName(userFromName: string) {
     return { assignedUser, cityPolo };
 }
 
-try {
-    const input = "Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG";
-    const expectedUser = "Carlos Rodrigo dos Santos B. Teodoro - PSA";
-    const expectedCityPolo = "Pouso Alegre - MG";
+describe('City Polo Parser', () => {
 
-    const result = parseUserFromName(input);
+    describe('parseUserFromName', () => {
+        test('deve parsear formato completo corretamente', () => {
+            const input = 'Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG';
+            const result = parseUserFromName(input);
 
-    assert.strictEqual(result.assignedUser, expectedUser);
-    assert.strictEqual(result.cityPolo, expectedCityPolo);
-    console.log(`✅ Test Passed: '${input}' -> User: '${result.assignedUser}', CityPolo: '${result.cityPolo}'`);
+            expect(result.assignedUser).toBe('Carlos Rodrigo dos Santos B. Teodoro - PSA');
+            expect(result.cityPolo).toBe('Pouso Alegre - MG');
+        });
 
-    const input2 = "Another Name / Sao Paulo - SP";
-    const expectedUser2 = "Another Name";
-    const expectedCityPolo2 = "Sao Paulo - SP";
+        test('deve parsear formato simples', () => {
+            const input = 'Another Name / Sao Paulo - SP';
+            const result = parseUserFromName(input);
 
-    const result2 = parseUserFromName(input2);
-    assert.strictEqual(result2.assignedUser, expectedUser2);
-    assert.strictEqual(result2.cityPolo, expectedCityPolo2);
-    console.log(`✅ Test Passed: '${input2}' -> User: '${result2.assignedUser}', CityPolo: '${result2.cityPolo}'`);
+            expect(result.assignedUser).toBe('Another Name');
+            expect(result.cityPolo).toBe('Sao Paulo - SP');
+        });
 
-} catch (error) {
-    console.error('❌ Test Failed:', error);
-    process.exit(1);
-}
+        test('deve parsear Leonardo Alves', () => {
+            const input = 'Leonardo Alves Feitosa - IIG / Ipatinga - MG';
+            const result = parseUserFromName(input);
+
+            expect(result.assignedUser).toBe('Leonardo Alves Feitosa - IIG');
+            expect(result.cityPolo).toBe('Ipatinga - MG');
+        });
+
+        test('deve lançar erro para formato inválido', () => {
+            const input = 'Nome sem barra';
+
+            expect(() => parseUserFromName(input)).toThrow('Invalid userFromName format');
+        });
+
+        test('deve lidar com espaços extras', () => {
+            const input = '  Nome do Usuario  /  Cidade - UF  ';
+            const result = parseUserFromName(input);
+
+            expect(result.assignedUser).toBe('Nome do Usuario');
+            expect(result.cityPolo).toBe('Cidade - UF');
+        });
+    });
+});

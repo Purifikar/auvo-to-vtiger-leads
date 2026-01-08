@@ -189,3 +189,474 @@
 {"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
 {"level":"info","message":"Lead created successfully","recordId":"1198701","service":"auvo-vtiger-service"}
 {"id":22,"level":"info","message":"Lead created successfully","service":"auvo-vtiger-service","vtigerId":"1198701"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service"}
+{"level":"info","message":"================================================================","service":"auvo-vtiger-service"}
+{"level":"info","message":"MANUAL SYNC EXECUTION","service":"auvo-vtiger-service"}
+{"level":"info","message":"================================================================","service":"auvo-vtiger-service"}
+{"level":"info","message":"Manual sync triggered","service":"auvo-vtiger-service"}
+{"level":"info","message":"=== AUVO SYNC STARTED ===","pilotFilterEnabled":true,"pilotUserIds":[213670],"service":"auvo-vtiger-service","timestamp":"2026-01-08T16:37:25.916-03:00"}
+{"dateRange":{"dateEnd":"2026-01-08","dateStart":"2026-01-07"},"level":"info","message":"Date range calculated","service":"auvo-vtiger-service"}
+{"level":"info","message":"Obtaining new Auvo API token","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API token obtained successfully","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET customers","page":1,"pageSize":1000,"params":{"creationDate":"2026-01-08"},"service":"auvo-vtiger-service"}
+{"entityCount":46,"level":"info","message":"Auvo API customers response","service":"auvo-vtiger-service","totalItems":46}
+{"level":"info","message":"Found 46 customers created on 2026-01-08","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122056: BAR DA FRIGIDEIRA ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122056 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122056,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"BackOffice Recife"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User BackOffice Recife is not a Consultor (gestora), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122083: NAVEGANTES BAR E PETISCARIA ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122083 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122083,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"BackOffice Recife"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User BackOffice Recife is not a Consultor (gestora), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122111: ACACIA PAES E MASSAS ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122111 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122111,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"BackOffice Recife"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User BackOffice Recife is not a Consultor (gestora), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122120: OXIVIDA MEDICINA HIPERBÁRICA  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122120 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122120,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.49247,"level":"info","longitude":-42.53707,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.49247,"level":"info","longitude":-42.53707,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":14,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"154","cf_767":"Das Águas","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Kiyoshi Tsunawaki","city":"Ipatinga","code":"35160-157","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 23","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21122120","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205664","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21122120, crm_id=1205664","service":"auvo-vtiger-service"}
+{"dbRequestId":23,"level":"info","message":"✅ Lead 21122120 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205664"}
+{"level":"info","message":"\n--- Processing customer 21122132: NUMAR ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122132 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122132,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"BackOffice Recife"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User BackOffice Recife is not a Consultor (gestora), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122143: Lead - Restaurante e churrascaria Piranguinho  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122143 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122143,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122163: CLINICA SÃO JUDAS TADEU  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122163 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122163,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.49216,"level":"info","longitude":-42.53689,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.49216,"level":"info","longitude":-42.53689,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":13,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"86","cf_767":"Cariru","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Kiyoshi Tsunawaki","city":"Ipatinga","code":"35160-157","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 24","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21122163","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205666","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21122163, crm_id=1205666","service":"auvo-vtiger-service"}
+{"dbRequestId":24,"level":"info","message":"✅ Lead 21122163 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205666"}
+{"level":"info","message":"\n--- Processing customer 21122251: CENTRO ORTOPÉDICO DE IPATINGA  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122251 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122251,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.49201,"level":"info","longitude":-42.53145,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.49201,"level":"info","longitude":-42.53145,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":14,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"2340","cf_767":"Cariru","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Itália","city":"Ipatinga","code":"35160-115","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 25","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21122251","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205668","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21122251, crm_id=1205668","service":"auvo-vtiger-service"}
+{"dbRequestId":25,"level":"info","message":"✅ Lead 21122251 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205668"}
+{"level":"info","message":"\n--- Processing customer 21122299: MOVIFIT ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122299 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122299,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.49199,"level":"info","longitude":-42.53158,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.49199,"level":"info","longitude":-42.53158,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":14,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"2530","cf_767":"Cariru","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Itália","city":"Ipatinga","code":"35160-115","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 26","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21122299","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205670","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21122299, crm_id=1205670","service":"auvo-vtiger-service"}
+{"dbRequestId":26,"level":"info","message":"✅ Lead 21122299 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205670"}
+{"level":"info","message":"\n--- Processing customer 21122310: Lead - Hotel e restaurante Leo ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122310 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122310,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21122353: LOGOS NÚCLEO DE REABILITAÇÃO  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122353 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122353,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.49264,"level":"info","longitude":-42.53148,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.49264,"level":"info","longitude":-42.53148,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":14,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"355","cf_767":"Cariru","cf_977":"MG","cf_993":"Ipatinga","cf_995":"R. México","city":"Ipatinga","code":"35160-123","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 27","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21122353","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205672","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21122353, crm_id=1205672","service":"auvo-vtiger-service"}
+{"dbRequestId":27,"level":"info","message":"✅ Lead 21122353 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205672"}
+{"level":"info","message":"\n--- Processing customer 21122438: NUCAPRICHU  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21122438 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21122438,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.49267,"level":"info","longitude":-42.53027,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.49267,"level":"info","longitude":-42.53027,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":15,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"844","cf_767":"Cariru","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Japão","city":"Ipatinga","code":"35160-119","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 28","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21122438","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205674","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21122438, crm_id=1205674","service":"auvo-vtiger-service"}
+{"dbRequestId":28,"level":"info","message":"✅ Lead 21122438 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205674"}
+{"level":"info","message":"\n--- Processing customer 21123012: Atletas academia Perim ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123012 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123012,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123547: Cordillera Parrilla bar  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123547 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123547,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123756: Lead - Sesi Itajubá  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123756 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123756,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123858: ARYA FLORAIS MALL ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123858 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123858,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Wagner Leite Curiel - CBA / Cuiaba - MT"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166216 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123931: Restaurante Kikos ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123931 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123931,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123936: Lead - Colégio Dom ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123936 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123936,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123968: Casa Grande Petiscaria ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123968 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123968,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Ivo Henrique Bezerra - SPO / Sao Paulo"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 207158 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123987: Lead - Restaurante quente e frio ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123987 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123987,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":2,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":2}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21123999: LEAD KOOYOO SUSHI ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21123999 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21123999,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Ivo Henrique Bezerra - SPO / Sao Paulo"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 207158 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21124083: Lead - Galeria vila nova Shopping  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21124083 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21124083,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21126500: Academia Atletas Centro ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21126500 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21126500,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21126507: Lead - Rock'n Razor Barber ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21126507 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21126507,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Carlos Rodrigo dos Santos B. Teodoro - PSA / Pouso Alegre - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User 166471 not in pilot list, skipping (pilot filter enabled)","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21126568: Sportfit academia  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21126568 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21126568,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21126690: Casteglione restaurante  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21126690 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21126690,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21126973: LEAD - Brozauto Assis Brasil ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21126973 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21126973,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Bruno E. Silva Pires - PAE / Porto Alegre - RS"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User Bruno E. Silva Pires - PAE / Porto Alegre - RS is not a Consultor (consultor), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21127115: INSTITUTO DE SAÚDE DOUTORA ISADORA  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127115 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127115,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.46416,"level":"info","longitude":-42.5503,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.46416,"level":"info","longitude":-42.5503,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":15,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"350","cf_767":"Jardim Panorama","cf_977":"MG","cf_993":"Ipatinga","cf_995":"R. dos Jurunas","city":"Ipatinga","code":"35162-083","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 29","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21127115","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205676","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21127115, crm_id=1205676","service":"auvo-vtiger-service"}
+{"dbRequestId":29,"level":"info","message":"✅ Lead 21127115 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205676"}
+{"level":"info","message":"\n--- Processing customer 21127139: SPETTOS RESTAURANTE  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127139 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127139,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.46458,"level":"info","longitude":-42.54992,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.46458,"level":"info","longitude":-42.54992,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":14,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"765","cf_767":"Canaã","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Minas Gerais","city":"Ipatinga","code":"35164-192","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 30","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21127139","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205678","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21127139, crm_id=1205678","service":"auvo-vtiger-service"}
+{"dbRequestId":30,"level":"info","message":"✅ Lead 21127139 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205678"}
+{"level":"info","message":"\n--- Processing customer 21127221: Academia Atletas IBC ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127221 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127221,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"GUSTAVO"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User GUSTAVO is not a Consultor (TECNICO), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21127254: LEAD - Restaurante Don Aurélio  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127254 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127254,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Bruno E. Silva Pires - PAE / Porto Alegre - RS"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User Bruno E. Silva Pires - PAE / Porto Alegre - RS is not a Consultor (consultor), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21127327: ORTODOCTOR ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127327 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127327,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.46818,"level":"info","longitude":-42.53234,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.46818,"level":"info","longitude":-42.53234,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":15,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"433","cf_767":"Veneza","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Macapá","city":"Ipatinga","code":"35164-253","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 31","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21127327","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205680","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21127327, crm_id=1205680","service":"auvo-vtiger-service"}
+{"dbRequestId":31,"level":"info","message":"✅ Lead 21127327 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205680"}
+{"level":"info","message":"\n--- Processing customer 21127391: LEAD - Doctor Clin Assis Brasil. ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127391 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127391,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Bruno E. Silva Pires - PAE / Porto Alegre - RS"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"User Bruno E. Silva Pires - PAE / Porto Alegre - RS is not a Consultor (consultor), skipping","service":"auvo-vtiger-service"}
+{"level":"info","message":"\n--- Processing customer 21127395: RESTAURANTE DONA ROSA ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127395 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127395,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.46811,"level":"info","longitude":-42.53202,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.46811,"level":"info","longitude":-42.53202,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":14,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"432","cf_767":"Veneza","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Macapá","city":"Ipatinga","code":"35164-253","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 32","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21127395","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205682","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21127395, crm_id=1205682","service":"auvo-vtiger-service"}
+{"dbRequestId":32,"level":"info","message":"✅ Lead 21127395 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205682"}
+{"level":"info","message":"\n--- Processing customer 21127432: SORVFRUTAS ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21127432 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21127432,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.46865,"level":"info","longitude":-42.53204,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.46865,"level":"info","longitude":-42.53204,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":16,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"395","cf_767":"Veneza","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Macapá","city":"Ipatinga","code":"35164-253","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 33","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21127432","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205684","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21127432, crm_id=1205684","service":"auvo-vtiger-service"}
+{"dbRequestId":33,"level":"info","message":"✅ Lead 21127432 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205684"}
+{"level":"info","message":"\n--- Processing customer 21130107: DOUTOR GUILHERME SILVEIRA  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21130107 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21130107,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.46895,"level":"info","longitude":-42.53183,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.46895,"level":"info","longitude":-42.53183,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":16,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"580","cf_767":"Veneza","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Macapá","city":"Ipatinga","code":"35164-253","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 34","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21130107","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205686","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21130107, crm_id=1205686","service":"auvo-vtiger-service"}
+{"dbRequestId":34,"level":"info","message":"✅ Lead 21130107 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205686"}
+{"level":"info","message":"\n--- Processing customer 21130572: LABORATÓRIO OSWALDO CRUZ  ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21130572 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21130572,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.47004,"level":"info","longitude":-42.53064,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.47004,"level":"info","longitude":-42.53064,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":15,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"260","cf_767":"Veneza","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Macapá","city":"Ipatinga","code":"35164-253","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 35","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21130572","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead created successfully","recordId":"1205688","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=21130572, crm_id=1205688","service":"auvo-vtiger-service"}
+{"dbRequestId":35,"level":"info","message":"✅ Lead 21130572 created successfully in Vtiger","service":"auvo-vtiger-service","vtigerId":"1205688"}
+{"level":"info","message":"\n--- Processing customer 21132729: CLINICA MEDICA SÃO LUCAS ---","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead 21132729 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Auvo API GET tasks","page":1,"pageSize":100,"params":{"customerId":21132729,"endDate":"2026-01-08","startDate":"2026-01-07"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API tasks response","service":"auvo-vtiger-service","totalItems":1}
+{"level":"info","message":"Auvo API GET users","page":1,"pageSize":100,"params":{"name":"Leonardo Alves Feitosa - IIG / Ipatinga - MG"},"service":"auvo-vtiger-service"}
+{"entityCount":1,"level":"info","message":"Auvo API users response","service":"auvo-vtiger-service","totalItems":1}
+{"latitude":-19.47022,"level":"info","longitude":-42.53056,"message":"Applying geocoding for user 213670","service":"auvo-vtiger-service"}
+{"latitude":-19.47022,"level":"info","longitude":-42.53056,"message":"Calling Google Geocoding API","service":"auvo-vtiger-service"}
+{"level":"info","message":"Google Geocoding API response received","resultsCount":15,"service":"auvo-vtiger-service","status":"OK"}
+{"level":"info","message":"Address parsed from Google Geocoding","result":{"cf_763":"247","cf_767":"Veneza","cf_977":"MG","cf_993":"Ipatinga","cf_995":"Av. Macapá","city":"Ipatinga","code":"35164-253","country":"Brasil","state":"Minas Gerais"},"service":"auvo-vtiger-service"}
+{"level":"info","message":"LeadRequest created with ID 36","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting Playwright automation for lead 21132729","service":"auvo-vtiger-service"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead NONEXISTENT_ID_12345 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767901819010 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_1767901819010, crm_id=CRM_1767901819010","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767901819010 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_RECORD_1767901819137, crm_id=CRM_RECORD_1767901819137","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_GET_1767901819152, crm_id=CRM_GET_1767901819152","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767901819163 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_DUP_1767901819163, crm_id=CRM_FIRST","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767901819163 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901819176 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901819176 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_1_1767901819176, crm_id=CRM_1","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901819176 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901819176 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_2_1767901819176, crm_id=CRM_2","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901819176 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901819176 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead NONEXISTENT_ID_12345 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767901842318 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_1767901842318, crm_id=CRM_1767901842318","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767901842318 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_RECORD_1767901842399, crm_id=CRM_RECORD_1767901842399","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_GET_1767901842414, crm_id=CRM_GET_1767901842414","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767901842423 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_DUP_1767901842423, crm_id=CRM_FIRST","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767901842423 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901842439 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901842439 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_1_1767901842439, crm_id=CRM_1","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901842439 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901842439 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_2_1767901842439, crm_id=CRM_2","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901842439 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901842439 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead NONEXISTENT_ID_12345 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767901888042 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_1767901888042, crm_id=CRM_1767901888042","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767901888042 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_RECORD_1767901888128, crm_id=CRM_RECORD_1767901888128","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_GET_1767901888143, crm_id=CRM_GET_1767901888143","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767901888153 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_DUP_1767901888153, crm_id=CRM_FIRST","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767901888153 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901888167 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901888167 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_1_1767901888167, crm_id=CRM_1","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901888167 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901888167 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_2_1767901888167, crm_id=CRM_2","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767901888167 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767901888167 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead NONEXISTENT_ID_12345 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767903214795 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_1767903214795, crm_id=CRM_1767903214795","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_1767903214795 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_RECORD_1767903214906, crm_id=CRM_RECORD_1767903214906","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_GET_1767903214917, crm_id=CRM_GET_1767903214917","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767903214927 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_DUP_1767903214927, crm_id=CRM_FIRST","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_DUP_1767903214927 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767903214938 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767903214938 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_1_1767903214938, crm_id=CRM_1","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767903214938 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767903214938 exists: false","service":"auvo-vtiger-service"}
+{"level":"info","message":"Lead mapping recorded: auvo_id=TEST_MULTI_2_1767903214938, crm_id=CRM_2","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_1_1767903214938 exists: true","service":"auvo-vtiger-service"}
+{"level":"info","message":"Checking if lead TEST_MULTI_2_1767903214938 exists: true","service":"auvo-vtiger-service"}

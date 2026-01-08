@@ -1,22 +1,87 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
+  # Scheduler - Sincronização automática a cada 10 minutos
+  scheduler:
+    build:
+      context: .
+      args:
+        MODE: scheduler
+    container_name: auvo-vtiger-scheduler
+    restart: unless-stopped
     environment:
+      - NODE_ENV=production
+      # Database
       - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_INTEGRATION_URL=${DATABASE_INTEGRATION_URL}
+      # CRM
       - CRM_URL=${CRM_URL}
       - CRM_USERNAME=${CRM_USERNAME}
       - CRM_PASSWORD=${CRM_PASSWORD}
+      # Auvo API
+      - AUVO_API_KEY=${AUVO_API_KEY}
+      - AUVO_API_TOKEN=${AUVO_API_TOKEN}
+      - AUVO_API_URL=${AUVO_API_URL:-https://api.auvo.com.br/v2}
+      # Google Maps
+      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+      # Email
       - ERROR_EMAIL_TO=${ERROR_EMAIL_TO}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASS=${SMTP_PASS}
-      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_SECURE=${SMTP_SECURE:-true}
+      # Filters
+      - ENABLE_PILOT_FILTER=${ENABLE_PILOT_FILTER:-false}
+      - PILOT_USER_IDS=${PILOT_USER_IDS:-}
+      - ENABLE_GEOCODING_FILTER=${ENABLE_GEOCODING_FILTER:-false}
+      - GEOCODING_USER_IDS=${GEOCODING_USER_IDS:-}
+      # Scheduler
+      - SYNC_CRON_EXPRESSION=${SYNC_CRON_EXPRESSION:-*/10 * * * *}
+      - SYNC_RUN_IMMEDIATELY=${SYNC_RUN_IMMEDIATELY:-false}
     volumes:
-      - .:/app
-      - /app/node_modules
-    command: npm run dev
+      - ./logs:/app/logs
+    networks:
+      - auvo-network
+
+  # API - Servidor para webhooks e retries
+  api:
+    build:
+      context: .
+      args:
+        MODE: api
+    container_name: auvo-vtiger-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - API_BASE_URL=${API_BASE_URL:-http://localhost:3000}
+      # Database
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_INTEGRATION_URL=${DATABASE_INTEGRATION_URL}
+      # CRM
+      - CRM_URL=${CRM_URL}
+      - CRM_USERNAME=${CRM_USERNAME}
+      - CRM_PASSWORD=${CRM_PASSWORD}
+      # Email
+      - ERROR_EMAIL_TO=${ERROR_EMAIL_TO}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_SECURE=${SMTP_SECURE:-true}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - auvo-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  auvo-network:
+    driver: bridge
