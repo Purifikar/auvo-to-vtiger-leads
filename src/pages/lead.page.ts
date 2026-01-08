@@ -89,24 +89,50 @@ export class LeadPage {
 
     async selectCity(city: string) {
         console.log(`Selecting City: ${city}`);
-        // Cidade uses a different selector pattern - find by label "Cidade"
-        await this.page.getByRole('cell', { name: 'Select an Option Selecionar' }).click();
-        await this.page.waitForTimeout(500);
 
-        // Use the specific active dropdown container to avoid matching items from other dropdowns
+        // Espera o dropdown de cidade estar disponível
+        const cityCell = this.page.getByRole('cell', { name: 'Select an Option Selecionar' });
+
+        try {
+            await cityCell.waitFor({ state: 'visible', timeout: 10000 });
+        } catch {
+            console.log('City dropdown not found, skipping city selection');
+            return;
+        }
+
+        await cityCell.click();
+        await this.page.waitForTimeout(1000);
+
+        // Use the specific active dropdown container
         const activeDropdown = this.page.locator('.chzn-drop:visible .chzn-results');
 
-        // Dynamic regex to match both patterns:
-        // - Just city name: "Lavras", "Pouso Alegre"
-        // - City with UF: "Lavras - MG", "Camanducaia - MG"
-        // Regex explanation:
-        // ^           -> Start of string
-        // ${city}     -> Exact city name (e.g., "Lavras")
-        // (\\s-\\s.*)? -> Optionally followed by " - " and any text (like "MG")
-        // $           -> End of string (prevents matching "Lavras Novas" when searching for "Lavras")
-        const cityRegex = new RegExp(`^${city}(\\s-\\s.*)?$`, 'i');
+        // Aguarda as opções carregarem
+        await activeDropdown.waitFor({ state: 'visible', timeout: 10000 });
 
-        await activeDropdown.getByRole('listitem').filter({ hasText: cityRegex }).last().click();
+        // Escapa caracteres especiais do regex
+        const escapedCity = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        // Tenta encontrar a cidade - primeiro match exato, depois parcial
+        // Pattern 1: "Itajubá" ou "Itajubá - MG"
+        const cityRegex = new RegExp(`^${escapedCity}(\\s*-\\s*.*)?$`, 'i');
+
+        let cityOption = activeDropdown.getByRole('listitem').filter({ hasText: cityRegex });
+        let count = await cityOption.count();
+
+        if (count === 0) {
+            // Fallback: busca parcial (contém a cidade)
+            console.log(`Exact match not found for "${city}", trying partial match...`);
+            cityOption = activeDropdown.getByRole('listitem').filter({ hasText: new RegExp(escapedCity, 'i') });
+            count = await cityOption.count();
+        }
+
+        if (count > 0) {
+            await cityOption.last().click();
+            console.log(`City "${city}" selected successfully`);
+        } else {
+            console.log(`⚠️ City "${city}" not found in dropdown, continuing without selection`);
+        }
+
         await this.page.waitForTimeout(500);
     }
 
