@@ -8,8 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install ALL dependencies (including devDependencies for build)
-# This will also run postinstall (prisma generate)
+# Install ALL dependencies (Playwright é necessário em runtime!)
 RUN npm ci
 
 # Copy the rest of source code
@@ -18,15 +17,14 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
-# Remove devDependencies after build to reduce image size
-RUN npm prune --production
+# NÃO remover devDependencies pois @playwright/test é necessário!
+# O prune estava causando o erro "Cannot find module '@playwright/test'"
 
 # Expose ports
 # 3000 = API server
 EXPOSE 3000
 
 # Default command (can be overridden in docker-compose)
-# Use "api" or "scheduler" as argument
 ARG MODE=api
 ENV MODE=${MODE}
 
