@@ -1,5 +1,5 @@
 # Base image with Playwright and browsers pre-installed
-FROM mcr.microsoft.com/playwright:v1.49.0-jammy
+FROM mcr.microsoft.com/playwright:v1.55.1-jammy
 
 # Set working directory
 WORKDIR /app
