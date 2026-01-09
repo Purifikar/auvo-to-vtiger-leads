@@ -115,24 +115,36 @@ export class LeadPage {
             return;
         }
 
-        // Escapa caracteres especiais do regex
-        const escapedCity = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // Função para remover acentos (Cuiabá → Cuiaba, Gravataí → Gravatai)
+        const removeAccents = (str: string) => {
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        };
 
-        // Tenta encontrar a cidade
-        let cityOption = cityDropdown.getByRole('listitem').filter({ hasText: new RegExp(`^${escapedCity}`, 'i') });
-        let count = await cityOption.count();
+        // Normaliza a cidade removendo acentos
+        const cityNormalized = removeAccents(city);
+        console.log(`Searching for city: "${city}" (normalized: "${cityNormalized}")`);
 
-        if (count === 0) {
-            // Fallback: busca parcial
-            console.log(`Exact match not found for "${city}", trying partial match...`);
-            cityOption = cityDropdown.getByRole('listitem').filter({ hasText: new RegExp(escapedCity, 'i') });
-            count = await cityOption.count();
+        // Busca todas as opções e compara sem acentos
+        const allOptions = await cityDropdown.getByRole('listitem').all();
+        let foundOption = null;
+
+        for (const option of allOptions) {
+            const text = await option.textContent();
+            if (!text) continue;
+
+            const textNormalized = removeAccents(text);
+
+            // Compara ignorando acentos e case
+            if (textNormalized.toLowerCase().startsWith(cityNormalized.toLowerCase())) {
+                foundOption = option;
+                console.log(`Found match: "${text}" for "${city}"`);
+                break;
+            }
         }
 
-        if (count > 0) {
-            // Scroll para o item se necessário e clica
-            await cityOption.first().scrollIntoViewIfNeeded();
-            await cityOption.first().click();
+        if (foundOption) {
+            await foundOption.scrollIntoViewIfNeeded();
+            await foundOption.click();
             console.log(`City "${city}" selected successfully`);
         } else {
             // Lista as opções disponíveis para debug

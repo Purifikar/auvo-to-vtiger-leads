@@ -9,3 +9,4 @@ node_modules/
 .env
 .log
 /N8N auvo docs/
+.png
