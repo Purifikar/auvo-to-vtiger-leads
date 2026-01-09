@@ -127,7 +127,8 @@ export class AuvoSyncService {
         };
 
         try {
-            // 2. Buscar clientes criados em dateEnd
+            // 2. Buscar clientes (a API não filtra corretamente por creationDate)
+            // Então buscamos todos e filtramos localmente
             const customersResponse = await this.auvoClient.getCustomers({
                 creationDate: dateRange.dateEnd,
             });
@@ -139,10 +140,18 @@ export class AuvoSyncService {
                 return result;
             }
 
-            const customers = customersResponse.data.result.entityList;
-            result.totalCustomers = customers.length;
+            const allCustomers = customersResponse.data.result.entityList;
 
-            logger.info(`Found ${customers.length} customers created on ${dateRange.dateEnd}`);
+            // FILTRO LOCAL: A API Auvo não filtra corretamente por creationDate
+            // Então filtramos localmente comparando a data de criação do cliente
+            const customers = allCustomers.filter(customer => {
+                // creationDate vem no formato "YYYY-MM-DDTHH:MM:SS" ou "YYYY-MM-DD HH:MM:SS"
+                const customerDate = customer.creationDate?.split('T')[0]?.split(' ')[0];
+                return customerDate === dateRange.dateEnd;
+            });
+
+            logger.info(`Found ${allCustomers.length} total customers, ${customers.length} match date ${dateRange.dateEnd}`);
+            result.totalCustomers = customers.length;
 
             // 3. Processar cada cliente SEQUENCIALMENTE
             for (const customer of customers) {
@@ -246,8 +255,9 @@ export class AuvoSyncService {
                 };
             }
 
-            // 1.4 Verificar se é Consultor
-            if (user.jobPosition !== CONSULTOR_JOB_POSITION) {
+            // 1.4 Verificar se é Consultor (case-insensitive)
+            const isConsultor = user.jobPosition?.toLowerCase() === CONSULTOR_JOB_POSITION.toLowerCase();
+            if (!isConsultor) {
                 logger.info(`User ${user.name} is not a Consultor (${user.jobPosition}), skipping`);
                 return {
                     auvoId,

@@ -90,47 +90,57 @@ export class LeadPage {
     async selectCity(city: string) {
         console.log(`Selecting City: ${city}`);
 
-        // Espera o dropdown de cidade estar disponível
-        const cityCell = this.page.getByRole('cell', { name: 'Select an Option Selecionar' });
+        // Encontra a row da Cidade especificamente
+        const cityRow = this.page.getByRole('row', { name: /\* Cidade/i });
 
         try {
-            await cityCell.waitFor({ state: 'visible', timeout: 10000 });
+            await cityRow.waitFor({ state: 'visible', timeout: 10000 });
         } catch {
-            console.log('City dropdown not found, skipping city selection');
+            console.log('City row not found, skipping city selection');
             return;
         }
 
-        await cityCell.click();
+        // Clica no dropdown dentro dessa row
+        const dropdownTrigger = cityRow.locator('a.chzn-single, .chzn-container a').first();
+        await dropdownTrigger.click();
         await this.page.waitForTimeout(1000);
 
-        // Use the specific active dropdown container
-        const activeDropdown = this.page.locator('.chzn-drop:visible .chzn-results');
+        // Agora busca o dropdown DENTRO da row da cidade
+        const cityDropdown = cityRow.locator('.chzn-drop .chzn-results');
 
-        // Aguarda as opções carregarem
-        await activeDropdown.waitFor({ state: 'visible', timeout: 10000 });
+        try {
+            await cityDropdown.waitFor({ state: 'visible', timeout: 10000 });
+        } catch {
+            console.log('City dropdown did not open, skipping');
+            return;
+        }
 
         // Escapa caracteres especiais do regex
         const escapedCity = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        // Tenta encontrar a cidade - primeiro match exato, depois parcial
-        // Pattern 1: "Itajubá" ou "Itajubá - MG"
-        const cityRegex = new RegExp(`^${escapedCity}(\\s*-\\s*.*)?$`, 'i');
-
-        let cityOption = activeDropdown.getByRole('listitem').filter({ hasText: cityRegex });
+        // Tenta encontrar a cidade
+        let cityOption = cityDropdown.getByRole('listitem').filter({ hasText: new RegExp(`^${escapedCity}`, 'i') });
         let count = await cityOption.count();
 
         if (count === 0) {
-            // Fallback: busca parcial (contém a cidade)
+            // Fallback: busca parcial
             console.log(`Exact match not found for "${city}", trying partial match...`);
-            cityOption = activeDropdown.getByRole('listitem').filter({ hasText: new RegExp(escapedCity, 'i') });
+            cityOption = cityDropdown.getByRole('listitem').filter({ hasText: new RegExp(escapedCity, 'i') });
             count = await cityOption.count();
         }
 
         if (count > 0) {
-            await cityOption.last().click();
+            // Scroll para o item se necessário e clica
+            await cityOption.first().scrollIntoViewIfNeeded();
+            await cityOption.first().click();
             console.log(`City "${city}" selected successfully`);
         } else {
-            console.log(`⚠️ City "${city}" not found in dropdown, continuing without selection`);
+            // Lista as opções disponíveis para debug
+            const options = await cityDropdown.getByRole('listitem').allTextContents();
+            const availablePreview = options.slice(0, 5).join(', ');
+
+            // LANÇA ERRO - cidade não encontrada no CRM
+            throw new Error(`Cidade "${city}" não encontrada no CRM. Opções similares: ${availablePreview}...`);
         }
 
         await this.page.waitForTimeout(500);
