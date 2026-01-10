@@ -1,34 +1,48 @@
 # scheduler/
 
 ## 🎯 Objetivo
-Agendador de sincronização usando node-cron. Executa a sincronização automaticamente a cada 10 minutos (configurável). Substitui o Schedule Trigger do n8n.
+Agendador de sincronização e reprocessamento usando node-cron. Executa:
+1. Sincronização automática a cada 10 minutos (configurável)
+2. Reprocessamento automático de leads falhos às 23:00 (configurável)
 
 ## 📂 Arquivos Principais
-- `index.ts`: Configuração do cron job e funções de controle
+- `index.ts`: Configuração dos cron jobs e funções de controle
 
 ## 🔄 Fluxo de Dados e Dependências
 - **Entrada:** Nenhuma (execução automática via cron)
-- **Saída:** Chamada a `AuvoSyncService.sync()` a cada intervalo
+- **Saída:** 
+  - Sync: Chamada a `AuvoSyncService.sync()`
+  - Reprocess: Chamada a `reprocessAllFailed()`
 - **Dependências:**
   - `node-cron` - Agendamento
   - `../auvo-sync` - Serviço de sincronização
+  - `../lib/dlqService` - Serviço de DLQ
   - `../lib/logger` - Logging
 
 ## ⚠️ Regras e Padrões
 
 ### Configuração via .env:
-- `SYNC_CRON_EXPRESSION` - Expressão cron (padrão: `*/10 * * * *`)
-- `SYNC_RUN_IMMEDIATELY` - Se `true`, executa ao iniciar
+| Variável | Padrão | Descrição |
+|----------|--------|-----------|
+| `SYNC_CRON_EXPRESSION` | `*/10 * * * *` | Expressão cron para sync |
+| `SYNC_RUN_IMMEDIATELY` | `false` | Se executa ao iniciar |
+| `REPROCESS_CRON_EXPRESSION` | `0 23 * * *` | Expressão cron para reprocessamento |
+| `MAX_RETRY_COUNT` | `3` | Máximo de tentativas por lead |
 
 ### Funções Exportadas:
-- `startScheduler()` - Inicia o cron job, retorna task
-- `stopScheduler(task)` - Para o cron job
-- `getSchedulerStats()` - Estatísticas (runs, successes, failures)
-- `runManualSync()` - Execução manual fora do cron
+- `startScheduler()` - Inicia os cron jobs, retorna { syncTask, reprocessTask }
+- `stopScheduler(tasks)` - Para os cron jobs
+- `getSchedulerStats()` - Estatísticas (runs, successes, failures, reprocessStats)
+- `runManualSync()` - Execução manual de sync
+- `runManualReprocess(maxRetries?)` - Execução manual de reprocessamento
+
+### Jobs Agendados:
+1. **Sync Job**: Busca clientes na Auvo e cria leads no Vtiger
+2. **Reprocess Job**: Às 23:00, tenta reprocessar todos os leads FAILED com retryCount < MAX_RETRY_COUNT
 
 ### Controle de Concorrência:
-- Flag `isRunning` evita execuções sobrepostas
-- Se uma sync ainda está rodando, a próxima é pulada
+- Flags `isRunning` e `isReprocessing` evitam execuções sobrepostas
+- Cada job pode rodar independentemente
 
 ### Execução Standalone:
 ```bash
@@ -38,4 +52,4 @@ npm run dev:scheduler    # Desenvolvimento (nodemon)
 
 ### Graceful Shutdown:
 - Escuta SIGINT e SIGTERM
-- Para o scheduler antes de sair
+- Para ambos os schedulers antes de sair

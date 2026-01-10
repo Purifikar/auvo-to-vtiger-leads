@@ -39,12 +39,18 @@ services:
       # Scheduler
       - SYNC_CRON_EXPRESSION=${SYNC_CRON_EXPRESSION:-*/10 * * * *}
       - SYNC_RUN_IMMEDIATELY=${SYNC_RUN_IMMEDIATELY:-false}
+      # DLQ Auto Reprocess
+      - DLQ_ENABLED=${DLQ_ENABLED:-true}
+      - DLQ_CRON_EXPRESSION=${DLQ_CRON_EXPRESSION:-0 23 * * *}
+      - DLQ_MAX_RETRIES=${DLQ_MAX_RETRIES:-3}
     volumes:
       - ./logs:/app/logs
+      - ./combined.log:/app/combined.log
+      - ./error.log:/app/error.log
     networks:
-      - auvo-network
+      - network_public
 
-  # API - Servidor para webhooks e retries
+  # API - Servidor para webhooks, Admin Panel e DLQ
   api:
     build:
       context: .
@@ -52,11 +58,9 @@ services:
         MODE: api
     container_name: auvo-vtiger-api
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     environment:
       - NODE_ENV=production
-      - API_BASE_URL=${API_BASE_URL:-http://localhost:3000}
+      - API_BASE_URL=${API_BASE_URL:-https://apicrm.purifikar.com.br}
       # Database
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_INTEGRATION_URL=${DATABASE_INTEGRATION_URL}
@@ -73,8 +77,16 @@ services:
       - SMTP_SECURE=${SMTP_SECURE:-true}
     volumes:
       - ./logs:/app/logs
+      - ./combined.log:/app/combined.log
+      - ./error.log:/app/error.log
     networks:
-      - auvo-network
+      - network_public
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.auvo-api.rule=Host(`apicrm.purifikar.com.br`)
+      - traefik.http.routers.auvo-api.entrypoints=websecure
+      - traefik.http.routers.auvo-api.tls.certresolver=myresolver
+      - traefik.http.services.auvo-api.loadbalancer.server.port=3000
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
       interval: 30s
@@ -83,5 +95,5 @@ services:
       start_period: 10s
 
 networks:
-  auvo-network:
-    driver: bridge
+  network_public:
+    external: true

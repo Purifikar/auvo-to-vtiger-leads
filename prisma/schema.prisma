@@ -8,11 +8,62 @@ datasource db {
 }
 
 model LeadRequest {
-  id           Int      @id @default(autoincrement())
-  payload      String   // JSON string of the received payload
-  status       String   // PENDING, PROCESSED, FAILED
-  vtigerId     String?
-  errorMessage String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              Int       @id @default(autoincrement())
+  payload         String    // JSON string of the received payload (can be edited)
+  originalPayload String?   // Original payload before any edits (for diff)
+  status          String    // PENDING, PROCESSING, PROCESSED, FAILED
+  vtigerId        String?
+  errorMessage    String?
+  retryCount      Int       @default(0)
+  lastRetryAt     DateTime?
+  source          String    @default("WEBHOOK") // WEBHOOK, AUVO_SYNC, MANUAL
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Feature Flags e Configurações Dinâmicas
+model SystemConfig {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  value       String
+  type        String   // boolean, string, number, json
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@index([key])
+}
+
+// Histórico de alterações de configuração (para rollback)
+model ConfigHistory {
+  id        Int      @id @default(autoincrement())
+  configKey String
+  oldValue  String
+  newValue  String
+  changedBy String?
+  changedAt DateTime @default(now())
+
+  @@index([configKey])
+  @@index([changedAt])
+}
+
+// Logs estruturados para dashboard
+model SystemLog {
+  id         Int      @id @default(autoincrement())
+  level      String   // INFO, WARN, ERROR
+  message    String
+  payload    String?  // JSON input
+  response   String?  // JSON output
+  statusCode Int?
+  source     String   // AUVO, WEBHOOK, MANUAL, SCHEDULER, SYSTEM
+  leadId     Int?     // Referência ao LeadRequest se aplicável
+  duration   Int?     // ms
+  createdAt  DateTime @default(now())
+
+  @@index([level])
+  @@index([source])
+  @@index([leadId])
+  @@index([createdAt])
 }

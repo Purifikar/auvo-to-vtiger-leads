@@ -17,11 +17,14 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
+# Create log files (para garantir que existem)
+RUN touch /app/combined.log /app/error.log
+
 # NÃO remover devDependencies pois @playwright/test é necessário!
 # O prune estava causando o erro "Cannot find module '@playwright/test'"
 
 # Expose ports
-# 3000 = API server
+# 3000 = API server + Admin Panel
 EXPOSE 3000
 
 # Default command (can be overridden in docker-compose)

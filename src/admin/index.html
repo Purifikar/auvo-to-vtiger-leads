@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auvo → Vtiger | Admin Panel</title>
+    <link rel="icon" type="image/png"
+        href="https://purifikar.com.br/wp-content/uploads/2023/07/cropped-icone-pfk-192x192.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <img src="https://purifikar.com.br/wp-content/uploads/2023/07/logo-pfk-R-hotizontal-branca.png"
+                alt="Purifikar" class="logo">
+            <span class="header-divider"></span>
+            <span class="header-title">Admin Panel</span>
+        </div>
+        <div class="header-right">
+            <span class="status-indicator online"></span>
+            <span class="status-text">Sistema Online</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Stats Cards (Clickable) -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card clickable active" data-filter="all" onclick="filterByStatus('all')">
+                    <div class="stat-icon blue">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="stat-total">--</span>
+                        <span class="stat-label">Total de Leads</span>
+                    </div>
+                </div>
+                <div class="stat-card clickable" data-filter="PROCESSED" onclick="filterByStatus('PROCESSED')">
+                    <div class="stat-icon green">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="stat-processed">--</span>
+                        <span class="stat-label">Processados</span>
+                    </div>
+                </div>
+                <div class="stat-card clickable" data-filter="PROCESSING" onclick="filterByStatus('PROCESSING')">
+                    <div class="stat-icon orange">
+                        <i data-lucide="loader"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="stat-processing">--</span>
+                        <span class="stat-label">Em Processamento</span>
+                    </div>
+                </div>
+                <div class="stat-card clickable" data-filter="FAILED" onclick="filterByStatus('FAILED')">
+                    <div class="stat-icon red">
+                        <i data-lucide="x-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="stat-failed">--</span>
+                        <span class="stat-label">Com Erro</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i data-lucide="percent"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="stat-rate">--%</span>
+                        <span class="stat-label">Taxa de Sucesso</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs -->
+        <section class="tabs-section">
+            <div class="tabs">
+                <button class="tab active" data-tab="leads">
+                    <i data-lucide="users"></i>
+                    Leads
+                </button>
+                <button class="tab" data-tab="config">
+                    <i data-lucide="settings"></i>
+                    Configurações
+                </button>
+                <button class="tab" data-tab="logs">
+                    <i data-lucide="file-text"></i>
+                    Logs
+                </button>
+            </div>
+        </section>
+
+        <!-- Tab Content: Leads -->
+        <section class="tab-content active" id="tab-leads">
+            <div class="content-header">
+                <h2 id="leads-title">Todos os Leads</h2>
+                <div class="content-actions">
+                    <button class="btn btn-secondary" id="btn-refresh">
+                        <i data-lucide="refresh-cw"></i>
+                        Atualizar
+                    </button>
+                    <button class="btn btn-primary" id="btn-batch-retry" disabled style="display: none;">
+                        <i data-lucide="play"></i>
+                        Reprocessar Selecionados (<span id="selected-count">0</span>)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label>Período:</label>
+                    <input type="date" id="filter-start" class="input-field">
+                    <span>até</span>
+                    <input type="date" id="filter-end" class="input-field">
+                </div>
+                <div class="filter-group">
+                    <label>Origem:</label>
+                    <select id="filter-source" class="input-field">
+                        <option value="">Todas</option>
+                        <option value="WEBHOOK">Webhook</option>
+                        <option value="AUVO_SYNC">Auvo Sync</option>
+                        <option value="MANUAL">Manual</option>
+                    </select>
+                </div>
+                <button class="btn btn-ghost" id="btn-apply-filter">
+                    <i data-lucide="filter"></i>
+                    Filtrar
+                </button>
+                <button class="btn btn-ghost" id="btn-clear-filter">
+                    <i data-lucide="x"></i>
+                    Limpar
+                </button>
+            </div>
+
+            <!-- Leads Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="col-checkbox" id="select-all-header" style="display: none;">
+                                <input type="checkbox" id="select-all" class="checkbox">
+                            </th>
+                            <th>Status</th>
+                            <th>ID</th>
+                            <th>Empresa/Nome</th>
+                            <th>VTiger ID</th>
+                            <th>Erro / Info</th>
+                            <th>Tentativas</th>
+                            <th>Origem</th>
+                            <th>Atualizado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-table-body">
+                        <tr class="loading-row">
+                            <td colspan="10">
+                                <div class="loading-spinner"></div>
+                                Carregando leads...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <span class="pagination-info">Mostrando <span id="showing-count">0</span> de <span
+                        id="total-count">0</span> leads</span>
+            </div>
+        </section>
+
+        <!-- Tab Content: Config -->
+        <section class="tab-content" id="tab-config">
+            <div class="content-header">
+                <h2>Configurações do Sistema</h2>
+                <button class="btn btn-secondary" id="btn-refresh-config">
+                    <i data-lucide="refresh-cw"></i>
+                    Atualizar
+                </button>
+            </div>
+
+            <div class="config-grid">
+                <!-- Feature Toggles -->
+                <div class="config-card">
+                    <h3>Feature Toggles</h3>
+                    <div class="config-item">
+                        <div class="config-info">
+                            <span class="config-label">Modo Manutenção</span>
+                            <span class="config-desc">Para todo o processamento de leads</span>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="config-maintenance_mode" data-key="maintenance_mode">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-info">
+                            <span class="config-label">Modo Piloto</span>
+                            <span class="config-desc">Processa apenas usuários piloto</span>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="config-pilot_mode" data-key="pilot_mode" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-info">
+                            <span class="config-label">Integração Auvo</span>
+                            <span class="config-desc">Sincronização automática com Auvo</span>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="config-auvo_integration_active"
+                                data-key="auvo_integration_active" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-info">
+                            <span class="config-label">Integração Vtiger</span>
+                            <span class="config-desc">Criação de leads no CRM</span>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="config-vtiger_integration_active"
+                                data-key="vtiger_integration_active" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Parameters -->
+                <div class="config-card">
+                    <h3>Parâmetros</h3>
+                    <div class="config-item">
+                        <div class="config-info">
+                            <span class="config-label">Máximo de Retentativas</span>
+                            <span class="config-desc">Quantas vezes tentar reprocessar</span>
+                        </div>
+                        <input type="number" class="input-field input-small" id="config-max_retry_count"
+                            data-key="max_retry_count" value="3" min="1" max="10">
+                    </div>
+                    <div class="config-item">
+                        <div class="config-info">
+                            <span class="config-label">IDs Pilotos</span>
+                            <span class="config-desc">IDs separados por vírgula</span>
+                        </div>
+                        <input type="text" class="input-field" id="config-pilot_user_ids" data-key="pilot_user_ids"
+                            placeholder="213670,123456">
+                    </div>
+                    <button class="btn btn-primary btn-block" id="btn-save-config">
+                        <i data-lucide="save"></i>
+                        Salvar Configurações
+                    </button>
+                </div>
+            </div>
+
+            <!-- Config History -->
+            <div class="config-card" style="margin-top: 24px;">
+                <h3>Histórico de Alterações</h3>
+                <div class="table-container">
+                    <table class="data-table" id="config-history-table">
+                        <thead>
+                            <tr>
+                                <th>Configuração</th>
+                                <th>Valor Anterior</th>
+                                <th>Novo Valor</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="config-history-body">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-muted);">
+                                    Nenhuma alteração registrada
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Content: Logs -->
+        <section class="tab-content" id="tab-logs">
+            <div class="content-header">
+                <h2>Logs do Sistema</h2>
+                <div class="content-actions">
+                    <select class="input-field" id="log-level-filter">
+                        <option value="">Todos os níveis</option>
+                        <option value="INFO">INFO</option>
+                        <option value="WARN">WARN</option>
+                        <option value="ERROR">ERROR</option>
+                    </select>
+                    <input type="text" class="input-field" id="log-search" placeholder="Buscar em logs..."
+                        style="width: 200px;">
+                    <button class="btn btn-secondary" id="btn-refresh-logs">
+                        <i data-lucide="refresh-cw"></i>
+                        Atualizar
+                    </button>
+                </div>
+            </div>
+
+            <div class="logs-container" id="logs-container">
+                <div class="log-entry info">
+                    <span class="log-time">--:--:--</span>
+                    <span class="log-level">INFO</span>
+                    <span class="log-message">Carregando logs...</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal: Edit Payload -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal-edit-payload">
+            <div class="modal-header">
+                <h3>Editar Payload - Lead #<span id="modal-lead-id">0</span></h3>
+                <button class="btn-icon" id="btn-close-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="json-editor-container">
+                    <label>Payload:</label>
+                    <textarea class="json-editor" id="payload-editor" rows="15"></textarea>
+                </div>
+                <div class="modal-info">
+                    <p><strong>Erro anterior:</strong> <span id="modal-error-message">-</span></p>
+                    <p><strong>Tentativas:</strong> <span id="modal-retry-count">0</span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-edit">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-payload">
+                    <i data-lucide="save"></i>
+                    Salvar
+                </button>
+                <button class="btn btn-success" id="btn-save-and-reprocess">
+                    <i data-lucide="play"></i>
+                    Salvar e Reprocessar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: View Details -->
+    <div class="modal-overlay" id="modal-view-overlay">
+        <div class="modal" id="modal-view-details">
+            <div class="modal-header">
+                <h3>Detalhes - Lead #<span id="view-lead-id">0</span></h3>
+                <button class="btn-icon" id="btn-close-view-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Status</label>
+                        <span id="view-status" class="status-badge">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>VTiger ID</label>
+                        <span id="view-vtiger-id">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Criado em</label>
+                        <span id="view-created-at">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Atualizado em</label>
+                        <span id="view-updated-at">-</span>
+                    </div>
+                </div>
+                <div class="json-editor-container" style="margin-top: 20px;">
+                    <label>Payload (somente leitura):</label>
+                    <pre class="json-viewer" id="view-payload"></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-close-view">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
