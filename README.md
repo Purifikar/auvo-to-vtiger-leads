@@ -185,7 +185,7 @@ npm run test:coverage # Com cobertura
 
 ### Build e Start (com Traefik)
 
-O projeto está configurado para usar Traefik como reverse proxy no domínio `apicrm.purifikar.com.br`.
+O projeto está configurado para usar Traefik como reverse proxy no domínio `subdominio.dominio.com.br`.
 
 ```bash
 # Iniciar API (com Admin Panel)
@@ -212,7 +212,7 @@ docker-compose down
 ### Configuração Traefik
 
 O `docker-compose.yml` já está configurado com as labels do Traefik:
-- Domínio: `apicrm.purifikar.com.br`
+- Domínio: `subdominio.dominio.com.br`
 - SSL automático via Let's Encrypt
 - Porta interna: 3000
 
