@@ -17,6 +17,9 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
+# Copy admin static files to dist (TypeScript doesn't copy HTML/CSS/JS)
+RUN cp -r src/admin dist/admin
+
 # Create log files (para garantir que existem)
 RUN touch /app/combined.log /app/error.log
 
