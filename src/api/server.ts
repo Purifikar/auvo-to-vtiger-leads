@@ -64,6 +64,44 @@ app.post('/webhook/lead', async (req, res) => {
             return res.status(400).json({ error: 'Invalid payload' });
         }
 
+        // Extract AuvoID from payload to check for duplicates
+        const leadData = payload[0];
+        const auvoId = leadData?.others?.Lead?.id;
+
+        if (auvoId) {
+            // Check if a LeadRequest already exists for this AuvoID
+            const existingRequest = await prisma.leadRequest.findFirst({
+                where: {
+                    payload: {
+                        contains: `"id":${auvoId}`,
+                    },
+                },
+                select: { id: true, status: true, vtigerId: true },
+            });
+
+            if (existingRequest) {
+                logger.info(`Duplicate webhook received for AuvoID ${auvoId}, existing request: #${existingRequest.id}`);
+
+                // If already processed successfully, return the existing vtigerId
+                if (existingRequest.status === 'PROCESSED' && existingRequest.vtigerId) {
+                    return res.status(200).json({
+                        message: 'Lead already processed',
+                        id: existingRequest.id,
+                        vtigerId: existingRequest.vtigerId,
+                        duplicate: true
+                    });
+                }
+
+                // If failed or processing, return info about existing request
+                return res.status(409).json({
+                    error: 'Lead already exists',
+                    message: `A request for this lead already exists (ID: ${existingRequest.id}, Status: ${existingRequest.status})`,
+                    existingId: existingRequest.id,
+                    status: existingRequest.status
+                });
+            }
+        }
+
         // Save to DB as PROCESSING
         const leadRequest = await prisma.leadRequest.create({
             data: {

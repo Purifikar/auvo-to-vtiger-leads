@@ -210,7 +210,7 @@ export class AuvoSyncService {
             // FASE 1: Validações e Preparação
             // ========================================
 
-            // 1.1 Verificar duplicidade no banco integration
+            // 1.1 Verificar duplicidade no banco integration (leads já processados com sucesso)
             const alreadyExists = await checkLeadExists(auvoId);
             if (alreadyExists) {
                 logger.info(`Customer ${auvoId} already processed, skipping`);
@@ -219,6 +219,27 @@ export class AuvoSyncService {
                     success: false,
                     skipped: true,
                     skipReason: 'Already exists in entity_mapping',
+                };
+            }
+
+            // 1.1b Verificar se já existe uma requisição para este AuvoID no banco local
+            // Isso evita criar múltiplas requisições para o mesmo lead (mesmo que falhou antes)
+            const existingRequest = await prisma.leadRequest.findFirst({
+                where: {
+                    payload: {
+                        contains: `"id":${auvoId}`,
+                    },
+                },
+                select: { id: true, status: true },
+            });
+
+            if (existingRequest) {
+                logger.info(`Customer ${auvoId} already has a LeadRequest (ID: ${existingRequest.id}, Status: ${existingRequest.status}), skipping`);
+                return {
+                    auvoId,
+                    success: false,
+                    skipped: true,
+                    skipReason: `Already has LeadRequest #${existingRequest.id} (${existingRequest.status})`,
                 };
             }
 
@@ -411,7 +432,7 @@ export class AuvoSyncService {
         // Preparar dados base do Vtiger
         const vtigerData: VtigerLeadData = {
             leadstatus: 'Cadastrado',
-            company: Lead.description,
+            company: this.normalizeCompanyName(Lead.description),
             phone: phone,
             email: email,
             leadsource: 'Prospeccao Consultor',
@@ -430,7 +451,7 @@ export class AuvoSyncService {
 
                 try {
                     const address = await getAddressFromCoordinates(Lead.latitude, Lead.longitude);
-                    this.applyAddressToVtiger(vtigerData, address);
+                    this.applyAddressToVtiger(vtigerData, address, Lead.address);
                 } catch (geocodeError) {
                     logger.warn('Geocoding failed, continuing without address', { error: geocodeError });
                 }
@@ -470,17 +491,105 @@ export class AuvoSyncService {
 
     /**
      * Aplica os dados de endereço do Google ao objeto Vtiger
+     * Com fallback para bairro usando o endereço da Auvo quando geocoding não retorna
      */
-    private applyAddressToVtiger(vtiger: VtigerLeadData, address: VtigerAddress): void {
+    private applyAddressToVtiger(vtiger: VtigerLeadData, address: VtigerAddress, auvoAddress?: string): void {
         vtiger.cf_995 = address.cf_995;  // Logradouro
         vtiger.cf_763 = address.cf_763;  // Número
-        vtiger.cf_767 = address.cf_767;  // Bairro
         vtiger.city = address.city;       // Cidade
         vtiger.cf_993 = address.cf_993;  // Cidade Real
         vtiger.state = address.state;     // Estado
         vtiger.cf_977 = address.cf_977;  // UF
         vtiger.code = address.code;       // CEP
         vtiger.country = address.country; // País
+
+        // Bairro: usar geocoding, mas se vazio, tentar extrair do endereço Auvo
+        if (address.cf_767) {
+            vtiger.cf_767 = address.cf_767;
+        } else if (auvoAddress) {
+            // Endereço Auvo vem no formato: "Local, Bairro, Cidade - UF, Brasil"
+            // O bairro geralmente é o segundo elemento separado por vírgula
+            const extractedNeighborhood = this.extractNeighborhoodFromAuvoAddress(auvoAddress);
+            if (extractedNeighborhood) {
+                vtiger.cf_767 = extractedNeighborhood;
+                logger.info('Bairro extracted from Auvo address as fallback', {
+                    auvoAddress,
+                    extractedNeighborhood
+                });
+            }
+        }
+    }
+
+    /**
+     * Extrai o bairro do endereço da Auvo
+     * Formato típico: "Nome do Local, Bairro, Cidade - UF, Brasil"
+     * O bairro é geralmente o segundo elemento
+     */
+    private extractNeighborhoodFromAuvoAddress(auvoAddress: string): string {
+        if (!auvoAddress) return '';
+
+        // Divide por vírgula e limpa espaços
+        const parts = auvoAddress.split(',').map(p => p.trim());
+
+        // Se tiver pelo menos 3 partes: [Local, Bairro, Cidade - UF, ...]
+        // O bairro é a segunda parte
+        if (parts.length >= 3) {
+            const potentialNeighborhood = parts[1];
+
+            // Verifica se não é uma cidade (não contém " - " que indica "Cidade - UF")
+            if (!potentialNeighborhood.includes(' - ')) {
+                return potentialNeighborhood;
+            }
+        }
+
+        // Se tiver apenas 2 partes: [Bairro, Cidade - UF, ...]
+        // Às vezes o primeiro elemento é o bairro
+        if (parts.length >= 2) {
+            const firstPart = parts[0];
+            // Se o primeiro elemento não parece ser um endereço completo
+            // (não contém número ou palavras como "Rua", "Av", "Rod")
+            if (!firstPart.match(/\d/) && !firstPart.match(/^(Rua|Av\.|Avenida|Rod\.|Rodovia|Estrada|Travessa|Alameda)/i)) {
+                return firstPart;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Normaliza o nome da empresa removendo prefixos "Lead" e convertendo para maiúsculas.
+     * 
+     * Exemplos:
+     * - "Lead - Barraca amarela" → "BARRACA AMARELA"
+     * - "Lead/ Nobre Implante" → "NOBRE IMPLANTE"
+     * - "Lead/Maycon" → "MAYCON"
+     * - "LEAD KOOYOO SUSHI" → "KOOYOO SUSHI"
+     * - "Dr Burguer" → "DR BURGUER"
+     * 
+     * @param name - Nome original da empresa vindo da Auvo
+     * @returns Nome normalizado em maiúsculas e sem prefixo "Lead"
+     */
+    private normalizeCompanyName(name: string): string {
+        if (!name) return '';
+
+        let normalized = name.trim();
+
+        // Remover variações do prefixo "Lead" (case-insensitive)
+        // Padrões: "Lead - ", "Lead/ ", "Lead/", "Lead -", "LEAD ", etc.
+        normalized = normalized.replace(/^lead\s*[-\/]\s*/i, '');
+
+        // Se ainda começar com "LEAD " (sem separador), remover também
+        normalized = normalized.replace(/^lead\s+/i, '');
+
+        // Converter para maiúsculas
+        normalized = normalized.toUpperCase();
+
+        // Remover espaços extras
+        normalized = normalized.replace(/\s+/g, ' ').trim();
+
+        logger.info('Company name normalized', { original: name, normalized });
+
+        return normalized;
     }
 
     /**

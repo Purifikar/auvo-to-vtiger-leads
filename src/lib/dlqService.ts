@@ -263,6 +263,7 @@ export async function reprocessAllFailed(maxRetries: number = 3): Promise<Reproc
 
 /**
  * Atualiza o payload de um lead (para correção manual antes de reprocessar)
+ * Faz merge dos campos fornecidos com o payload existente
  */
 export async function updateLeadPayload(id: number, newPayload: any): Promise<{ success: boolean; error?: string }> {
     const leadRequest = await prisma.leadRequest.findUnique({
@@ -276,10 +277,43 @@ export async function updateLeadPayload(id: number, newPayload: any): Promise<{ 
     // Salva o payload original se ainda não foi salvo
     const originalPayload = leadRequest.originalPayload || leadRequest.payload;
 
+    // Parse o payload existente
+    const existingPayload = JSON.parse(leadRequest.payload);
+
+    // Se o payload existente é um array, trabalhamos com o primeiro elemento
+    const isArray = Array.isArray(existingPayload);
+    const existingData = isArray ? existingPayload[0] : existingPayload;
+
+    // Fazer merge inteligente
+    // Se newPayload tem a estrutura completa (vtiger, others), usar ela
+    // Senão, assumir que são campos para serem mesclados no vtiger
+    let mergedData;
+    if (newPayload.vtiger || newPayload.others) {
+        // Payload completo, fazer merge profundo
+        mergedData = {
+            ...existingData,
+            vtiger: { ...existingData.vtiger, ...(newPayload.vtiger || {}) },
+            others: newPayload.others ? { ...existingData.others, ...newPayload.others } : existingData.others,
+        };
+    } else {
+        // Apenas campos vtiger, fazer merge no vtiger
+        mergedData = {
+            ...existingData,
+            vtiger: { ...existingData.vtiger, ...newPayload },
+        };
+    }
+
+    // Manter o formato original (array ou objeto)
+    const finalPayload = isArray ? [mergedData] : mergedData;
+
+    logger.info(`[DLQ] Merging payload for lead ${id}`, {
+        fieldsUpdated: Object.keys(newPayload),
+    });
+
     await prisma.leadRequest.update({
         where: { id },
         data: {
-            payload: JSON.stringify(newPayload),
+            payload: JSON.stringify(finalPayload),
             originalPayload: originalPayload,
         },
     });
