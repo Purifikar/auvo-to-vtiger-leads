@@ -19,6 +19,7 @@ const prisma_1 = require("../lib/prisma");
 const logger_1 = require("../lib/logger");
 const createLead_1 = require("../automation/createLead");
 const email_1 = require("../lib/email");
+const prismaIntegration_1 = require("../lib/prismaIntegration");
 const dlqService_1 = require("../lib/dlqService");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -65,50 +66,88 @@ app.post('/webhook/lead', (req, res) => __awaiter(void 0, void 0, void 0, functi
         // Extract AuvoID from payload to check for duplicates
         const leadData = payload[0];
         const auvoId = (_b = (_a = leadData === null || leadData === void 0 ? void 0 : leadData.others) === null || _a === void 0 ? void 0 : _a.Lead) === null || _b === void 0 ? void 0 : _b.id;
-        if (auvoId) {
-            // Check if a LeadRequest already exists for this AuvoID
-            // Usando campo auvoId dedicado para busca mais eficiente e precisa
-            const existingRequest = yield prisma_1.prisma.leadRequest.findUnique({
-                where: {
-                    auvoId: auvoId,
-                },
-                select: { id: true, status: true, vtigerId: true },
+        if (!auvoId) {
+            return res.status(400).json({ error: 'Missing auvoId in payload' });
+        }
+        // ========================================
+        // FASE 1: Verificar duplicidade em AMBOS os bancos
+        // ========================================
+        // 1.1 Verificar no entity_mapping (banco integration)
+        const entityStatus = yield (0, prismaIntegration_1.getLeadStatus)(auvoId);
+        if (entityStatus.exists) {
+            logger_1.logger.info(`Lead ${auvoId} already exists in entity_mapping`, {
+                crmId: entityStatus.crmId,
+                isPending: entityStatus.isPending,
+                isFailed: entityStatus.isFailed,
             });
-            if (existingRequest) {
-                logger_1.logger.info(`Duplicate webhook received for AuvoID ${auvoId}, existing request: #${existingRequest.id}`);
-                // If already processed successfully, return the existing vtigerId
-                if (existingRequest.status === 'PROCESSED' && existingRequest.vtigerId) {
-                    return res.status(200).json({
-                        message: 'Lead already processed',
-                        id: existingRequest.id,
-                        vtigerId: existingRequest.vtigerId,
-                        duplicate: true
-                    });
-                }
-                // If failed or processing, return info about existing request
-                return res.status(409).json({
-                    error: 'Lead already exists',
-                    message: `A request for this lead already exists (ID: ${existingRequest.id}, Status: ${existingRequest.status})`,
-                    existingId: existingRequest.id,
-                    status: existingRequest.status
+            if (entityStatus.isCreated) {
+                return res.status(200).json({
+                    message: 'Lead already processed',
+                    crmId: entityStatus.crmId,
+                    duplicate: true
                 });
             }
+            // Se está PENDING ou FAILED, retorna conflito
+            return res.status(409).json({
+                error: 'Lead already exists',
+                message: `Lead is ${entityStatus.isPending ? 'PENDING' : 'FAILED'} in entity_mapping`,
+                crmId: entityStatus.crmId,
+            });
         }
-        // Save to DB as PROCESSING with auvoId field
+        // 1.2 Verificar no LeadRequest (banco local)
+        const existingRequest = yield prisma_1.prisma.leadRequest.findUnique({
+            where: { auvoId: auvoId },
+            select: { id: true, status: true, vtigerId: true },
+        });
+        if (existingRequest) {
+            logger_1.logger.info(`Duplicate webhook received for AuvoID ${auvoId}, existing request: #${existingRequest.id}`);
+            if (existingRequest.status === 'PROCESSED' && existingRequest.vtigerId) {
+                return res.status(200).json({
+                    message: 'Lead already processed',
+                    id: existingRequest.id,
+                    vtigerId: existingRequest.vtigerId,
+                    duplicate: true
+                });
+            }
+            return res.status(409).json({
+                error: 'Lead already exists',
+                message: `A request for this lead already exists (ID: ${existingRequest.id}, Status: ${existingRequest.status})`,
+                existingId: existingRequest.id,
+                status: existingRequest.status
+            });
+        }
+        // ========================================
+        // FASE 2: RESERVAR no entity_mapping ANTES de processar
+        // ========================================
+        const reserved = yield (0, prismaIntegration_1.reserveLeadMapping)(auvoId);
+        if (!reserved) {
+            logger_1.logger.info(`Lead ${auvoId} could not be reserved (race condition)`);
+            return res.status(409).json({
+                error: 'Lead already being processed',
+                message: 'Another request is already processing this lead'
+            });
+        }
+        logger_1.logger.info(`Lead ${auvoId} reserved in entity_mapping`);
+        // ========================================
+        // FASE 3: Salvar no banco local (PROCESSING)
+        // ========================================
         const leadRequest = yield prisma_1.prisma.leadRequest.create({
             data: {
-                auvoId: auvoId || null, // Campo dedicado para evitar duplicatas
+                auvoId: auvoId,
                 payload: JSON.stringify(payload),
                 status: 'PROCESSING',
                 source: 'WEBHOOK',
             },
         });
-        logger_1.logger.info(`Lead request received and saved`, { id: leadRequest.id });
+        logger_1.logger.info(`Lead request saved`, { id: leadRequest.id, auvoId });
+        // ========================================
+        // FASE 4: Executar automação Playwright
+        // ========================================
         try {
-            // Process lead synchronously
-            const leadData = payload[0];
             const vtigerId = yield (0, createLead_1.createLeadAutomation)(leadData);
-            // Update DB with success
+            // ========================================
+            // FASE 5: Sucesso - Atualizar ambos os bancos
+            // ========================================
             yield prisma_1.prisma.leadRequest.update({
                 where: { id: leadRequest.id },
                 data: {
@@ -116,7 +155,9 @@ app.post('/webhook/lead', (req, res) => __awaiter(void 0, void 0, void 0, functi
                     vtigerId: vtigerId,
                 },
             });
-            logger_1.logger.info('Lead created successfully', { id: leadRequest.id, vtigerId });
+            // Atualizar entity_mapping com o crm_id real
+            yield (0, prismaIntegration_1.updateLeadMapping)(auvoId, vtigerId);
+            logger_1.logger.info('Lead created successfully', { id: leadRequest.id, vtigerId, auvoId });
             res.status(200).json({
                 message: 'Lead created successfully',
                 id: leadRequest.id,
@@ -124,8 +165,8 @@ app.post('/webhook/lead', (req, res) => __awaiter(void 0, void 0, void 0, functi
             });
         }
         catch (automationError) {
-            logger_1.logger.error('Automation failed', { error: automationError });
-            // Update DB with failure
+            logger_1.logger.error('Automation failed', { error: automationError, auvoId });
+            // Atualizar LeadRequest como FAILED
             yield prisma_1.prisma.leadRequest.update({
                 where: { id: leadRequest.id },
                 data: {
@@ -133,6 +174,8 @@ app.post('/webhook/lead', (req, res) => __awaiter(void 0, void 0, void 0, functi
                     errorMessage: automationError.message || 'Unknown error',
                 },
             });
+            // Marcar no entity_mapping como FAILED
+            yield (0, prismaIntegration_1.markLeadAsFailed)(auvoId);
             // Send error email
             try {
                 yield (0, email_1.sendErrorEmail)(`Lead ${leadRequest.id} Failed`, automationError, {

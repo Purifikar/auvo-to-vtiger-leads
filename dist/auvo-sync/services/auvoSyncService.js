@@ -232,7 +232,21 @@ class AuvoSyncService {
                 };
                 const payload = yield this.prepareVtigerPayload(item);
                 // ========================================
-                // FASE 3: Salvar no banco local (PROCESSING)
+                // FASE 3: RESERVAR no entity_mapping ANTES de processar
+                // Isso previne duplicidade mesmo se múltiplos webhooks chegarem simultaneamente
+                // ========================================
+                const reserved = yield (0, prismaIntegration_1.reserveLeadMapping)(auvoId);
+                if (!reserved) {
+                    logger_1.logger.info(`Customer ${auvoId} could not be reserved (already exists in entity_mapping)`);
+                    return {
+                        auvoId,
+                        success: false,
+                        skipped: true,
+                        skipReason: 'Already reserved in entity_mapping',
+                    };
+                }
+                // ========================================
+                // FASE 4: Salvar no banco local (PROCESSING)
                 // ========================================
                 const leadRequest = yield prisma_1.prisma.leadRequest.create({
                     data: {
@@ -242,17 +256,17 @@ class AuvoSyncService {
                         source: 'AUVO_SYNC',
                     },
                 });
-                logger_1.logger.info(`LeadRequest created with ID ${leadRequest.id}`);
+                logger_1.logger.info(`LeadRequest created with ID ${leadRequest.id}, entity_mapping reserved`);
                 // ========================================
-                // FASE 4: Executar automação Playwright
+                // FASE 5: Executar automação Playwright
                 // ========================================
                 try {
                     logger_1.logger.info(`Starting Playwright automation for lead ${auvoId}`);
                     const vtigerId = yield (0, createLead_1.createLeadAutomation)(payload);
                     // ========================================
-                    // FASE 5: Sucesso - Registrar nos bancos
+                    // FASE 6: Sucesso - Atualizar nos bancos
                     // ========================================
-                    // 5.1 Atualizar LeadRequest como PROCESSED
+                    // 6.1 Atualizar LeadRequest como PROCESSED
                     yield prisma_1.prisma.leadRequest.update({
                         where: { id: leadRequest.id },
                         data: {
@@ -260,8 +274,8 @@ class AuvoSyncService {
                             vtigerId: vtigerId,
                         },
                     });
-                    // 5.2 Registrar no banco integration (entity_mapping)
-                    yield (0, prismaIntegration_1.recordLeadMapping)(auvoId, vtigerId);
+                    // 6.2 Atualizar o entity_mapping com o crm_id real
+                    yield (0, prismaIntegration_1.updateLeadMapping)(auvoId, vtigerId);
                     logger_1.logger.info(`✅ Lead ${auvoId} created successfully in Vtiger`, {
                         vtigerId,
                         dbRequestId: leadRequest.id,
@@ -277,7 +291,7 @@ class AuvoSyncService {
                 }
                 catch (automationError) {
                     // ========================================
-                    // FASE 5b: Erro - Tratar falha
+                    // FASE 6b: Erro - Tratar falha
                     // ========================================
                     const errorMessage = automationError instanceof Error
                         ? automationError.message
@@ -294,6 +308,8 @@ class AuvoSyncService {
                             errorMessage: errorMessage,
                         },
                     });
+                    // Marcar no entity_mapping como FAILED (mas mantém reservado)
+                    yield (0, prismaIntegration_1.markLeadAsFailed)(auvoId);
                     // Enviar email de erro
                     yield this.sendErrorNotification(leadRequest.id, automationError, payload);
                     return {
@@ -536,14 +552,16 @@ class AuvoSyncService {
             logger_1.logger.info(`Direct processing for Auvo lead ${auvoId}`);
             try {
                 const vtigerId = yield (0, createLead_1.createLeadAutomation)(payload);
-                // Registrar no entity_mapping
-                yield (0, prismaIntegration_1.recordLeadMapping)(auvoId, vtigerId);
+                // Atualizar no entity_mapping (já deve existir com PENDING ou FAILED)
+                yield (0, prismaIntegration_1.updateLeadMapping)(auvoId, vtigerId);
                 logger_1.logger.info(`Direct processing successful for ${auvoId}`, { vtigerId });
                 return { success: true, vtigerId };
             }
             catch (error) {
                 const errorMessage = error instanceof Error ? error.message : 'Unknown error';
                 logger_1.logger.error(`Direct processing failed for ${auvoId}`, { error: errorMessage });
+                // Marcar como FAILED no entity_mapping
+                yield (0, prismaIntegration_1.markLeadAsFailed)(auvoId);
                 return { success: false, error: errorMessage };
             }
         });

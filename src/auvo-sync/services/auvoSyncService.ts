@@ -16,7 +16,14 @@
  */
 
 import { logger } from '../../lib/logger';
-import { checkLeadExists, recordLeadMapping } from '../../lib/prismaIntegration';
+import {
+    checkLeadExists,
+    reserveLeadMapping,
+    updateLeadMapping,
+    markLeadAsFailed,
+    getLeadStatus,
+    LEAD_STATUS
+} from '../../lib/prismaIntegration';
 import { prisma } from '../../lib/prisma';
 import { sendErrorEmail } from '../../lib/email';
 import { createLeadAutomation } from '../../automation/createLead';
@@ -313,7 +320,23 @@ export class AuvoSyncService {
             const payload = await this.prepareVtigerPayload(item);
 
             // ========================================
-            // FASE 3: Salvar no banco local (PROCESSING)
+            // FASE 3: RESERVAR no entity_mapping ANTES de processar
+            // Isso previne duplicidade mesmo se múltiplos webhooks chegarem simultaneamente
+            // ========================================
+
+            const reserved = await reserveLeadMapping(auvoId);
+            if (!reserved) {
+                logger.info(`Customer ${auvoId} could not be reserved (already exists in entity_mapping)`);
+                return {
+                    auvoId,
+                    success: false,
+                    skipped: true,
+                    skipReason: 'Already reserved in entity_mapping',
+                };
+            }
+
+            // ========================================
+            // FASE 4: Salvar no banco local (PROCESSING)
             // ========================================
 
             const leadRequest = await prisma.leadRequest.create({
@@ -325,10 +348,10 @@ export class AuvoSyncService {
                 },
             });
 
-            logger.info(`LeadRequest created with ID ${leadRequest.id}`);
+            logger.info(`LeadRequest created with ID ${leadRequest.id}, entity_mapping reserved`);
 
             // ========================================
-            // FASE 4: Executar automação Playwright
+            // FASE 5: Executar automação Playwright
             // ========================================
 
             try {
@@ -337,10 +360,10 @@ export class AuvoSyncService {
                 const vtigerId = await createLeadAutomation(payload);
 
                 // ========================================
-                // FASE 5: Sucesso - Registrar nos bancos
+                // FASE 6: Sucesso - Atualizar nos bancos
                 // ========================================
 
-                // 5.1 Atualizar LeadRequest como PROCESSED
+                // 6.1 Atualizar LeadRequest como PROCESSED
                 await prisma.leadRequest.update({
                     where: { id: leadRequest.id },
                     data: {
@@ -349,8 +372,8 @@ export class AuvoSyncService {
                     },
                 });
 
-                // 5.2 Registrar no banco integration (entity_mapping)
-                await recordLeadMapping(auvoId, vtigerId);
+                // 6.2 Atualizar o entity_mapping com o crm_id real
+                await updateLeadMapping(auvoId, vtigerId);
 
                 logger.info(`✅ Lead ${auvoId} created successfully in Vtiger`, {
                     vtigerId,
@@ -368,7 +391,7 @@ export class AuvoSyncService {
 
             } catch (automationError) {
                 // ========================================
-                // FASE 5b: Erro - Tratar falha
+                // FASE 6b: Erro - Tratar falha
                 // ========================================
 
                 const errorMessage = automationError instanceof Error
@@ -388,6 +411,9 @@ export class AuvoSyncService {
                         errorMessage: errorMessage,
                     },
                 });
+
+                // Marcar no entity_mapping como FAILED (mas mantém reservado)
+                await markLeadAsFailed(auvoId);
 
                 // Enviar email de erro
                 await this.sendErrorNotification(leadRequest.id, automationError, payload);
@@ -665,8 +691,8 @@ export class AuvoSyncService {
         try {
             const vtigerId = await createLeadAutomation(payload);
 
-            // Registrar no entity_mapping
-            await recordLeadMapping(auvoId, vtigerId);
+            // Atualizar no entity_mapping (já deve existir com PENDING ou FAILED)
+            await updateLeadMapping(auvoId, vtigerId);
 
             logger.info(`Direct processing successful for ${auvoId}`, { vtigerId });
 
@@ -674,6 +700,9 @@ export class AuvoSyncService {
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             logger.error(`Direct processing failed for ${auvoId}`, { error: errorMessage });
+
+            // Marcar como FAILED no entity_mapping
+            await markLeadAsFailed(auvoId);
 
             return { success: false, error: errorMessage };
         }
