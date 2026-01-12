@@ -9,6 +9,7 @@ datasource db {
 
 model LeadRequest {
   id              Int       @id @default(autoincrement())
+  auvoId          Int?      @unique // ID único do lead na Auvo - previne duplicatas
   payload         String    // JSON string of the received payload (can be edited)
   originalPayload String?   // Original payload before any edits (for diff)
   status          String    // PENDING, PROCESSING, PROCESSED, FAILED
@@ -22,6 +23,7 @@ model LeadRequest {
 
   @@index([status])
   @@index([createdAt])
+  @@index([auvoId])
 }
 
 // Feature Flags e Configurações Dinâmicas

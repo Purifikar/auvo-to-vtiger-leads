@@ -71,7 +71,8 @@ class AuvoApiClient {
                 return this.authToken.accessToken;
             }
             catch (error) {
-                logger_1.logger.error('Failed to obtain Auvo API token', { error });
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                logger_1.logger.error('Failed to obtain Auvo API token', { error: errorMessage });
                 throw error;
             }
         });
@@ -119,7 +120,15 @@ class AuvoApiClient {
                 return result;
             }
             catch (error) {
-                logger_1.logger.error(`Auvo API ${entity} request failed`, { error, params });
+                // Extrai mensagem do erro para logging correto
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                const errorStack = error instanceof Error ? error.stack : undefined;
+                logger_1.logger.error(`Auvo API ${entity} request failed`, {
+                    error: errorMessage,
+                    stack: errorStack,
+                    params,
+                    url: url.toString()
+                });
                 // Retorna resposta de erro formatada
                 return {
                     success: false,

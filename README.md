@@ -2,7 +2,7 @@
 
 Integração automática de Leads do sistema **Auvo** para o CRM **Vtiger** usando automação via **Playwright**.
 
-> **v2.2.0** - Admin Panel completo com DLQ, Configurações e Logs em tempo real.
+> **v2.3.0** - Correção de duplicidade de leads com campo `auvoId` dedicado + Admin Panel completo.
 
 ## 🚀 Funcionalidades
 

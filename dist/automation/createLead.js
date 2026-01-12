@@ -16,7 +16,12 @@ const lead_page_1 = require("../pages/lead.page");
 const logger_1 = require("../lib/logger");
 function createLeadAutomation(leadData) {
     return __awaiter(this, void 0, void 0, function* () {
-        const browser = yield playwright_1.chromium.launch({ headless: false }); // Set to false for debugging
+        // Headless true para Docker/produção, false apenas para debug local
+        const isHeadless = process.env.PLAYWRIGHT_HEADLESS !== 'false';
+        const browser = yield playwright_1.chromium.launch({
+            headless: isHeadless,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Necessário para Docker
+        });
         const context = yield browser.newContext();
         const page = yield context.newPage();
         try {

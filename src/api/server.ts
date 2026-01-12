@@ -70,11 +70,10 @@ app.post('/webhook/lead', async (req, res) => {
 
         if (auvoId) {
             // Check if a LeadRequest already exists for this AuvoID
-            const existingRequest = await prisma.leadRequest.findFirst({
+            // Usando campo auvoId dedicado para busca mais eficiente e precisa
+            const existingRequest = await prisma.leadRequest.findUnique({
                 where: {
-                    payload: {
-                        contains: `"id":${auvoId}`,
-                    },
+                    auvoId: auvoId,
                 },
                 select: { id: true, status: true, vtigerId: true },
             });
@@ -102,9 +101,10 @@ app.post('/webhook/lead', async (req, res) => {
             }
         }
 
-        // Save to DB as PROCESSING
+        // Save to DB as PROCESSING with auvoId field
         const leadRequest = await prisma.leadRequest.create({
             data: {
+                auvoId: auvoId || null,  // Campo dedicado para evitar duplicatas
                 payload: JSON.stringify(payload),
                 status: 'PROCESSING',
                 source: 'WEBHOOK',

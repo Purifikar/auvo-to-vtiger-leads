@@ -81,21 +81,62 @@ class LeadPage {
     selectCity(city) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`Selecting City: ${city}`);
-            // Cidade uses a different selector pattern - find by label "Cidade"
-            yield this.page.getByRole('cell', { name: 'Select an Option Selecionar' }).click();
-            yield this.page.waitForTimeout(500);
-            // Use the specific active dropdown container to avoid matching items from other dropdowns
-            const activeDropdown = this.page.locator('.chzn-drop:visible .chzn-results');
-            // Dynamic regex to match both patterns:
-            // - Just city name: "Lavras", "Pouso Alegre"
-            // - City with UF: "Lavras - MG", "Camanducaia - MG"
-            // Regex explanation:
-            // ^           -> Start of string
-            // ${city}     -> Exact city name (e.g., "Lavras")
-            // (\\s-\\s.*)? -> Optionally followed by " - " and any text (like "MG")
-            // $           -> End of string (prevents matching "Lavras Novas" when searching for "Lavras")
-            const cityRegex = new RegExp(`^${city}(\\s-\\s.*)?$`, 'i');
-            yield activeDropdown.getByRole('listitem').filter({ hasText: cityRegex }).last().click();
+            // Encontra a row da Cidade especificamente
+            const cityRow = this.page.getByRole('row', { name: /\* Cidade/i });
+            try {
+                yield cityRow.waitFor({ state: 'visible', timeout: 10000 });
+            }
+            catch (_a) {
+                console.log('City row not found, skipping city selection');
+                return;
+            }
+            // Clica no dropdown dentro dessa row
+            const dropdownTrigger = cityRow.locator('a.chzn-single, .chzn-container a').first();
+            yield dropdownTrigger.click();
+            yield this.page.waitForTimeout(1000);
+            // Agora busca o dropdown DENTRO da row da cidade
+            const cityDropdown = cityRow.locator('.chzn-drop .chzn-results');
+            try {
+                yield cityDropdown.waitFor({ state: 'visible', timeout: 10000 });
+            }
+            catch (_b) {
+                console.log('City dropdown did not open, skipping');
+                return;
+            }
+            // Função para remover acentos (Cuiabá → Cuiaba, Gravataí → Gravatai)
+            const removeAccents = (str) => {
+                return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            };
+            // Normaliza a cidade removendo acentos
+            const cityNormalized = removeAccents(city);
+            console.log(`Searching for city: "${city}" (normalized: "${cityNormalized}")`);
+            // Busca todas as opções e compara sem acentos
+            const allOptions = yield cityDropdown.getByRole('listitem').all();
+            let foundOption = null;
+            for (const option of allOptions) {
+                const text = yield option.textContent();
+                if (!text)
+                    continue;
+                const textNormalized = removeAccents(text);
+                // Compara ignorando acentos e case
+                if (textNormalized.toLowerCase().startsWith(cityNormalized.toLowerCase())) {
+                    foundOption = option;
+                    console.log(`Found match: "${text}" for "${city}"`);
+                    break;
+                }
+            }
+            if (foundOption) {
+                yield foundOption.scrollIntoViewIfNeeded();
+                yield foundOption.click();
+                console.log(`City "${city}" selected successfully`);
+            }
+            else {
+                // Lista as opções disponíveis para debug
+                const options = yield cityDropdown.getByRole('listitem').allTextContents();
+                const availablePreview = options.slice(0, 5).join(', ');
+                // LANÇA ERRO - cidade não encontrada no CRM
+                throw new Error(`Cidade "${city}" não encontrada no CRM. Opções similares: ${availablePreview}...`);
+            }
             yield this.page.waitForTimeout(500);
         });
     }

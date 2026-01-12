@@ -224,11 +224,10 @@ export class AuvoSyncService {
 
             // 1.1b Verificar se já existe uma requisição para este AuvoID no banco local
             // Isso evita criar múltiplas requisições para o mesmo lead (mesmo que falhou antes)
-            const existingRequest = await prisma.leadRequest.findFirst({
+            // Usando campo auvoId dedicado em vez de busca por string no JSON
+            const existingRequest = await prisma.leadRequest.findUnique({
                 where: {
-                    payload: {
-                        contains: `"id":${auvoId}`,
-                    },
+                    auvoId: auvoId,
                 },
                 select: { id: true, status: true },
             });
@@ -319,8 +318,10 @@ export class AuvoSyncService {
 
             const leadRequest = await prisma.leadRequest.create({
                 data: {
+                    auvoId: auvoId,  // Campo dedicado para evitar duplicatas
                     payload: JSON.stringify([payload]),
                     status: 'PROCESSING',
+                    source: 'AUVO_SYNC',
                 },
             });
 
