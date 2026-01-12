@@ -39,4 +39,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
     CMD if [ "$MODE" = "api" ]; then curl -f http://localhost:3000/health || exit 1; else exit 0; fi
 
 # Start command based on MODE
-CMD ["sh", "-c", "if [ \"$MODE\" = \"scheduler\" ]; then node dist/scheduler/index.js; else node dist/api/server.js; fi"]
+# Runs prisma migrate deploy first to apply any pending migrations
+CMD ["sh", "-c", "npx prisma migrate deploy && if [ \"$MODE\" = \"scheduler\" ]; then node dist/scheduler/index.js; else node dist/api/server.js; fi"]
