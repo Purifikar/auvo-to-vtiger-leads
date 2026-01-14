@@ -443,17 +443,26 @@ class AuvoSyncService {
      * Com fallback para bairro usando o endereço da Auvo quando geocoding não retorna
      */
     applyAddressToVtiger(vtiger, address, auvoAddress) {
-        vtiger.cf_995 = address.cf_995; // Logradouro
-        vtiger.cf_763 = address.cf_763; // Número
-        vtiger.city = address.city; // Cidade
-        vtiger.cf_993 = address.cf_993; // Cidade Real
-        vtiger.state = address.state; // Estado
-        vtiger.cf_977 = address.cf_977; // UF
-        vtiger.code = address.code; // CEP
-        vtiger.country = address.country; // País
-        // Bairro: usar geocoding, mas se vazio, tentar extrair do endereço Auvo
-        if (address.cf_767) {
-            vtiger.cf_767 = address.cf_767;
+        // Helper para garantir que não salvamos "undefined" como string
+        const safeValue = (val) => {
+            if (val === undefined || val === null || val === 'undefined' || val === 'null') {
+                return '';
+            }
+            return val;
+        };
+        vtiger.cf_995 = safeValue(address.cf_995); // Logradouro
+        vtiger.cf_763 = safeValue(address.cf_763); // Número
+        vtiger.city = safeValue(address.city); // Cidade
+        vtiger.cf_993 = safeValue(address.cf_993); // Cidade Real
+        vtiger.state = safeValue(address.state); // Estado
+        vtiger.cf_977 = safeValue(address.cf_977); // UF
+        vtiger.code = safeValue(address.code); // CEP
+        vtiger.country = safeValue(address.country) || 'Brasil'; // País
+        // Bairro: usar geocoding, mas se vazio/undefined, tentar extrair do endereço Auvo
+        const geocodeBairro = safeValue(address.cf_767);
+        if (geocodeBairro) {
+            vtiger.cf_767 = geocodeBairro;
+            logger_1.logger.info('Bairro from geocoding:', { bairro: geocodeBairro });
         }
         else if (auvoAddress) {
             // Endereço Auvo vem no formato: "Local, Bairro, Cidade - UF, Brasil"
@@ -466,6 +475,21 @@ class AuvoSyncService {
                     extractedNeighborhood
                 });
             }
+            else {
+                // Se não conseguiu extrair, usar valor padrão
+                vtiger.cf_767 = 'NÃO INFORMADO';
+                logger_1.logger.warn('Could not extract bairro, using default', {
+                    auvoAddress,
+                    defaultValue: 'NÃO INFORMADO'
+                });
+            }
+        }
+        else {
+            // Sem geocoding e sem endereço Auvo
+            vtiger.cf_767 = 'NÃO INFORMADO';
+            logger_1.logger.warn('No bairro available, using default', {
+                defaultValue: 'NÃO INFORMADO'
+            });
         }
     }
     /**

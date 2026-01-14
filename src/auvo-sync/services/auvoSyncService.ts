@@ -559,18 +559,31 @@ export class AuvoSyncService {
      * Com fallback para bairro usando o endereço da Auvo quando geocoding não retorna
      */
     private applyAddressToVtiger(vtiger: VtigerLeadData, address: VtigerAddress, auvoAddress?: string): void {
-        vtiger.cf_995 = address.cf_995;  // Logradouro
-        vtiger.cf_763 = address.cf_763;  // Número
-        vtiger.city = address.city;       // Cidade
-        vtiger.cf_993 = address.cf_993;  // Cidade Real
-        vtiger.state = address.state;     // Estado
-        vtiger.cf_977 = address.cf_977;  // UF
-        vtiger.code = address.code;       // CEP
-        vtiger.country = address.country; // País
+        // Helper para garantir que não salvamos "undefined" como string
+        const safeValue = (val: string | undefined | null): string => {
+            if (val === undefined || val === null || val === 'undefined' || val === 'null') {
+                return '';
+            }
+            return val;
+        };
 
-        // Bairro: usar geocoding, mas se vazio, tentar extrair do endereço Auvo
-        if (address.cf_767) {
-            vtiger.cf_767 = address.cf_767;
+        vtiger.cf_995 = safeValue(address.cf_995);  // Logradouro
+        vtiger.cf_763 = safeValue(address.cf_763);  // Número
+        vtiger.city = safeValue(address.city);       // Cidade
+        vtiger.cf_993 = safeValue(address.cf_993);  // Cidade Real
+        vtiger.state = safeValue(address.state);     // Estado
+        vtiger.cf_977 = safeValue(address.cf_977);  // UF
+        vtiger.code = safeValue(address.code);       // CEP
+        vtiger.country = safeValue(address.country) || 'Brasil'; // País
+
+        // Bairro: usar geocoding, mas se vazio/undefined, tentar extrair do endereço Auvo
+        // Se ainda não conseguir, usar o nome da cidade como fallback
+        const geocodeBairro = safeValue(address.cf_767);
+        const cidadeFallback = safeValue(address.city) || safeValue(address.cf_993);
+
+        if (geocodeBairro) {
+            vtiger.cf_767 = geocodeBairro;
+            logger.info('Bairro from geocoding:', { bairro: geocodeBairro });
         } else if (auvoAddress) {
             // Endereço Auvo vem no formato: "Local, Bairro, Cidade - UF, Brasil"
             // O bairro geralmente é o segundo elemento separado por vírgula
@@ -581,7 +594,20 @@ export class AuvoSyncService {
                     auvoAddress,
                     extractedNeighborhood
                 });
+            } else if (cidadeFallback) {
+                // Se não conseguiu extrair bairro, usar a cidade como fallback
+                vtiger.cf_767 = cidadeFallback;
+                logger.info('Using city as bairro fallback', {
+                    auvoAddress,
+                    bairro: cidadeFallback
+                });
             }
+        } else if (cidadeFallback) {
+            // Sem geocoding bairro e sem endereço Auvo, usar cidade
+            vtiger.cf_767 = cidadeFallback;
+            logger.info('Using city as bairro (no other source)', {
+                bairro: cidadeFallback
+            });
         }
     }
 

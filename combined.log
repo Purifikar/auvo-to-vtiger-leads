@@ -281,3 +281,158 @@
 {"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:17:11.915Z"}
 {"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:17:11.915Z"}
 {"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:17:11.915Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.802Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.804Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.804Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.804Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.804Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.805Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.805Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.805Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.805Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.805Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:18.806Z"}
+{"level":"info","message":"[DLQ] Reprocessing lead 28 (attempt 3)","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:40.635Z"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:34:41.309Z"}
+{"error":{},"level":"error","message":"Automation failed","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:35:04.007Z"}
+{"error":"page.screenshot: Target page, context or browser has been closed","level":"error","message":"[DLQ] Lead 28 reprocessing failed","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:35:04.258Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.978Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.981Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.982Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.983Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:02.984Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.117Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.119Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.119Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.119Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.120Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.120Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.120Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.120Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.120Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.120Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:39.121Z"}
+{"level":"info","message":"Lead 21168123 reservation removed (can be reprocessed)","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:36:50.880Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.369Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.372Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.372Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.372Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.372Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.373Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.373Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.373Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.373Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.373Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.373Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:37:12.374Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.827Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.829Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.829Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.830Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:02.831Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.927Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.930Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.930Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.930Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.931Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.931Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.931Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.931Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.931Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.931Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:39:49.932Z"}
+{"level":"info","message":"Lead 21168123 reservation removed (can be reprocessed)","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:40:00.501Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.622Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.624Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.625Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.625Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.625Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.625Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.625Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.625Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:03.626Z"}
+{"level":"info","message":"Server running on port 3000","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.768Z"}
+{"level":"info","message":"Available endpoints:","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.770Z"}
+{"level":"info","message":"  GET  /health              - Health check","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.770Z"}
+{"level":"info","message":"  GET  /api/stats           - Get lead statistics","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.771Z"}
+{"level":"info","message":"  POST /webhook/lead        - Create new lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.771Z"}
+{"level":"info","message":"  POST /webhook/lead/:id/retry - Retry failed lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.771Z"}
+{"level":"info","message":"  GET  /api/leads/all       - List all leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.771Z"}
+{"level":"info","message":"  GET  /api/leads/failed    - List failed leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.771Z"}
+{"level":"info","message":"  GET  /api/lead/:id        - Get lead by ID","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.771Z"}
+{"level":"info","message":"  POST /api/lead/:id/reprocess - Reprocess lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  PUT  /api/lead/:id/payload - Update lead payload","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  GET  /api/lead/:id/diff   - Get payload diff","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  POST /api/leads/batch-retry - Batch retry leads","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  GET  /api/configs         - Get system configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  PUT  /api/configs         - Update configs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  GET  /api/configs/history - Config change history","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.772Z"}
+{"level":"info","message":"  GET  /api/logs            - Get system logs","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.773Z"}
+{"level":"info","message":"  GET  /admin               - Admin Panel","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:20.773Z"}
+{"level":"info","message":"Lead 21168123 reservation removed (can be reprocessed)","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:41:31.990Z"}
+{"level":"info","message":"[DLQ] Reprocessing lead 28 (attempt 1)","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:42:05.054Z"}
+{"level":"info","message":"Starting automation for lead","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:42:05.405Z"}
+{"level":"info","message":"Lead created successfully","recordId":"1206670","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:42:28.509Z"}
+{"level":"info","message":"[DLQ] Lead 28 reprocessed successfully","service":"auvo-vtiger-service","timestamp":"2026-01-14T13:42:28.698Z","vtigerId":"1206670"}
