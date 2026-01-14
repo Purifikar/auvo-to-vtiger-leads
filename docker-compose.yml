@@ -45,8 +45,6 @@ services:
       - DLQ_MAX_RETRIES=${DLQ_MAX_RETRIES:-3}
     volumes:
       - ./logs:/app/logs
-      - ./combined.log:/app/combined.log
-      - ./error.log:/app/error.log
     networks:
       - network_public
 
@@ -77,8 +75,6 @@ services:
       - SMTP_SECURE=${SMTP_SECURE:-true}
     volumes:
       - ./logs:/app/logs
-      - ./combined.log:/app/combined.log
-      - ./error.log:/app/error.log
     networks:
       - network_public
     labels:
