@@ -1,12 +1,40 @@
+# Dependencies
+node_modules/
 
 # Playwright
-node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Environment
 .env
-.log
+.env.local
+.env.*.local
+
+# Logs
+*.log
+combined.log
+error.log
+logs/
+
+# Error screenshots (geradas pelo Playwright em caso de falha)
+error-*.png
+*.screenshot.png
+
+# Build (opcional - remova se quiser versionar o build)
+# dist/
+
+# Docs externos
 /N8N auvo docs/
-.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
