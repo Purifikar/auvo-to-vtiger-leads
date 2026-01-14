@@ -459,7 +459,9 @@ class AuvoSyncService {
         vtiger.code = safeValue(address.code); // CEP
         vtiger.country = safeValue(address.country) || 'Brasil'; // País
         // Bairro: usar geocoding, mas se vazio/undefined, tentar extrair do endereço Auvo
+        // Se ainda não conseguir, usar o nome da cidade como fallback
         const geocodeBairro = safeValue(address.cf_767);
+        const cidadeFallback = safeValue(address.city) || safeValue(address.cf_993);
         if (geocodeBairro) {
             vtiger.cf_767 = geocodeBairro;
             logger_1.logger.info('Bairro from geocoding:', { bairro: geocodeBairro });
@@ -475,20 +477,20 @@ class AuvoSyncService {
                     extractedNeighborhood
                 });
             }
-            else {
-                // Se não conseguiu extrair, usar valor padrão
-                vtiger.cf_767 = 'NÃO INFORMADO';
-                logger_1.logger.warn('Could not extract bairro, using default', {
+            else if (cidadeFallback) {
+                // Se não conseguiu extrair bairro, usar a cidade como fallback
+                vtiger.cf_767 = cidadeFallback;
+                logger_1.logger.info('Using city as bairro fallback', {
                     auvoAddress,
-                    defaultValue: 'NÃO INFORMADO'
+                    bairro: cidadeFallback
                 });
             }
         }
-        else {
-            // Sem geocoding e sem endereço Auvo
-            vtiger.cf_767 = 'NÃO INFORMADO';
-            logger_1.logger.warn('No bairro available, using default', {
-                defaultValue: 'NÃO INFORMADO'
+        else if (cidadeFallback) {
+            // Sem geocoding bairro e sem endereço Auvo, usar cidade
+            vtiger.cf_767 = cidadeFallback;
+            logger_1.logger.info('Using city as bairro (no other source)', {
+                bairro: cidadeFallback
             });
         }
     }

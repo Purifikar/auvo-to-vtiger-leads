@@ -138,12 +138,12 @@ export function parseGoogleAddress(geocodingResponse: GoogleGeocodingResponse): 
                         break;
 
                     case 'administrative_area_level_2':
-                        // Cidade - usa short_name
+                        // Cidade - usa long_name para nome completo (evita abreviações como "Cel." em vez de "Coronel")
                         if (!result.city) {
-                            result.city = component.short_name;
+                            result.city = component.long_name;
                         }
                         if (!result.cf_993) {
-                            result.cf_993 = component.short_name;
+                            result.cf_993 = component.long_name;
                         }
                         break;
 
