@@ -29,6 +29,7 @@ import { sendErrorEmail } from '../../lib/email';
 import { createLeadAutomation } from '../../automation/createLead';
 import { AuvoApiClient, createAuvoClient } from './auvoApiClient';
 import { parseDateRange, getAddressFromCoordinates, areCoordinatesValid } from '../helpers';
+import { parseAuvoAddress, validatePayload, formatValidationError, logPayloadFields } from '../../lib/payloadValidator';
 import type {
     SyncInput,
     DateRange,
@@ -468,6 +469,9 @@ export class AuvoSyncService {
             cf_765: Lead.adressComplement || '', // Complemento
         };
 
+        // Flag para saber se geocoding foi aplicado com sucesso
+        let geocodingApplied = false;
+
         // Verificar se deve aplicar geocoding
         if (shouldApplyGeocoding(User.userID, this.config.geocodingFilter)) {
             if (areCoordinatesValid(Lead.latitude, Lead.longitude)) {
@@ -479,14 +483,48 @@ export class AuvoSyncService {
                 try {
                     const address = await getAddressFromCoordinates(Lead.latitude, Lead.longitude);
                     this.applyAddressToVtiger(vtigerData, address, Lead.address);
+                    geocodingApplied = true;
                 } catch (geocodeError) {
-                    logger.warn('Geocoding failed, continuing without address', { error: geocodeError });
+                    logger.warn('Geocoding failed, will use Auvo address', { error: geocodeError });
                 }
             } else {
-                logger.info(`Invalid coordinates for customer ${Lead.id}, skipping geocoding`);
+                logger.info(`Invalid coordinates for customer ${Lead.id}, will use Auvo address`);
             }
         } else {
-            logger.info(`Geocoding not enabled for user ${User.userID}`);
+            logger.info(`Geocoding not enabled for user ${User.userID}, using Auvo address`);
+        }
+
+        // Se geocoding não foi aplicado, usar o endereço da Auvo diretamente
+        if (!geocodingApplied && Lead.address) {
+            logger.info(`Parsing Auvo address: "${Lead.address}"`);
+
+            const parsedAddress = parseAuvoAddress(Lead.address);
+
+            logger.info('Parsed address from Auvo:', parsedAddress);
+
+            // Aplicar campos do endereço parseado da Auvo
+            vtigerData.cf_995 = parsedAddress.logradouro || vtigerData.cf_995 || '';
+            vtigerData.cf_763 = parsedAddress.numero || vtigerData.cf_763 || '';
+            vtigerData.cf_767 = parsedAddress.bairro || vtigerData.cf_767 || '';
+            vtigerData.city = parsedAddress.cidade || vtigerData.city || '';
+            vtigerData.cf_993 = parsedAddress.cidade || vtigerData.cf_993 || '';
+            vtigerData.state = parsedAddress.estado || vtigerData.state || '';
+            vtigerData.cf_977 = parsedAddress.uf || vtigerData.cf_977 || '';
+            vtigerData.code = parsedAddress.cep || vtigerData.code || '';
+            vtigerData.country = parsedAddress.pais || 'Brasil';
+        }
+
+        // Garantir que País está sempre preenchido
+        if (!vtigerData.country) {
+            vtigerData.country = 'Brasil';
+        }
+
+        // Validar payload e logar campos
+        const validation = validatePayload(vtigerData);
+        logPayloadFields(vtigerData);
+
+        if (!validation.isValid) {
+            logger.warn(`Payload has empty/missing fields: ${formatValidationError(validation)}`);
         }
 
         // Montar o payload completo
